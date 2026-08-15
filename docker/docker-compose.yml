@@ -1,0 +1,77 @@
+version: '3.8'
+
+services:
+  # 1. Reverse Proxy & WAF (Nginx)
+  nginx:
+    image: nginx:alpine
+    container_name: cust-nginx-proxy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+    depends_on:
+      - app
+    networks:
+      - cust-network
+
+  # 2. CUST Full-Stack Spring Boot Application (Java 21)
+  app:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    container_name: cust-portal-app
+    restart: unless-stopped
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - DB_HOST=postgres
+      - DB_PORT=5432
+      - DB_NAME=cust_portal_db
+      - DB_USER=cust_admin
+      - DB_PASSWORD=CustEnterpriseSecure2026!
+      - SPRING_MAIL_HOST=mailhog
+      - SPRING_MAIL_PORT=1025
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - cust-network
+
+  # 3. Secure Production Relational Database (PostgreSQL 16)
+  postgres:
+    image: postgres:16-alpine
+    container_name: cust-postgres-db
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: cust_portal_db
+      POSTGRES_USER: cust_admin
+      POSTGRES_PASSWORD: CustEnterpriseSecure2026!
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cust_admin -d cust_portal_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - cust-network
+
+  # 4. Mail Service & Testing Engine (NIST SP 800-177 Simulation)
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: cust-mail-engine
+    restart: unless-stopped
+    ports:
+      - "8025:8025" # Mailhog Web UI for inspecting SPF/DKIM
+    networks:
+      - cust-network
+
+networks:
+  cust-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+    driver: local

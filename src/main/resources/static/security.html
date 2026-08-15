@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>資通安全防護與稽核監控中心 - 中華科技大學 CUST</title>
+  <meta name="description" content="中華科技大學 NIST CSF 2.0 資安框架防護儀表板與稽核監控中心。涵蓋識別、防禦、偵測、應變與復原全生命週期安全軌跡。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/security.css">
+</head>
+<body>
+
+  <!-- Accessibility Toolbar -->
+  <aside class="accessibility-bar">
+    <div class="container">
+      <div class="a11y-left">
+        <a href="/" style="color:#e2e8f0; font-weight:600;">← 返回中華科大首頁</a>
+      </div>
+      <div class="a11y-right">
+        <button id="font-decrease-btn" class="a11y-btn">A-</button>
+        <button id="font-increase-btn" class="a11y-btn">A+</button>
+        <button id="theme-toggle-btn" class="a11y-btn">🌓 主題</button>
+        <button id="contrast-toggle-btn" class="a11y-btn">👁️ 高對比</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Header -->
+  <header class="main-header">
+    <div class="header-top">
+      <div class="container" style="display:flex; align-items:center;">
+        <a href="/" class="brand-wrapper">
+          <div class="brand-logo-badge">CUST</div>
+          <div class="brand-titles">
+            <h1>中華科技大學</h1>
+            <div class="brand-en">NIST CSF 2.0 CYBERSECURITY &amp; AUDIT SOC</div>
+          </div>
+        </a>
+        <div class="header-actions">
+          <div id="header-auth-section">
+            <button class="btn-header btn-gold" onclick="openLoginModal()">管理員登入</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <nav class="main-nav container">
+      <ul class="nav-links">
+        <li class="nav-item"><a href="/" class="nav-link">首頁</a></li>
+        <li class="nav-item"><a href="/news.html" class="nav-link">新聞集錦與公告</a></li>
+        <li class="nav-item"><a href="/mail.html" class="nav-link">校園信箱</a></li>
+        <li class="nav-item"><a href="/security.html" class="nav-link active">資安防護中心 <span class="nav-badge">SOC</span></a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <div class="security-hero">
+    <div class="container">
+      <h1>資通安全監控中心 (SOC) &amp; NIST CSF 2.0 儀表板</h1>
+      <p style="color:#cbd5e1; font-size:1.05rem; max-width:800px;">
+        全面依循美國國家標準暨技術研究院 <strong>NIST Cybersecurity Framework 2.0</strong> 規範，實施治理 (Govern)、識別 (Identify)、防禦 (Protect)、偵測 (Detect)、應變 (Respond) 與復原 (Recover) 全方位校園資訊防護。
+      </p>
+    </div>
+  </div>
+
+  <main class="container" style="padding: 2.5rem 0;">
+    <!-- NIST CSF 2.0 Six Pillars Status -->
+    <section>
+      <div class="section-tag">NIST CSF 2.0 COMPLIANCE MATRIX</div>
+      <h2 style="font-size:1.5rem; font-weight:800; margin-bottom:1rem;">核心框架六大防護領域即時狀態</h2>
+
+      <div class="csf-pillars-grid">
+        <div class="csf-pillar-card">
+          <div class="pillar-code">GV (GOVERN)</div>
+          <div class="pillar-name">治理方針</div>
+          <div class="pillar-status">● 政策合規生效</div>
+        </div>
+        <div class="csf-pillar-card">
+          <div class="pillar-code">ID (IDENTIFY)</div>
+          <div class="pillar-name">資產識別</div>
+          <div class="pillar-status">● RBAC身分控管</div>
+        </div>
+        <div class="csf-pillar-card">
+          <div class="pillar-code">PR (PROTECT)</div>
+          <div class="pillar-name">安全防禦</div>
+          <div class="pillar-status">● TLS 1.3 / CSP</div>
+        </div>
+        <div class="csf-pillar-card">
+          <div class="pillar-code">DE (DETECT)</div>
+          <div class="pillar-name">異常偵測</div>
+          <div class="pillar-status">● 實時稽核日誌</div>
+        </div>
+        <div class="csf-pillar-card">
+          <div class="pillar-code">RS (RESPOND)</div>
+          <div class="pillar-name">緊急應變</div>
+          <div class="pillar-status">● 自動威脅隔離</div>
+        </div>
+        <div class="csf-pillar-card">
+          <div class="pillar-code">RC (RECOVER)</div>
+          <div class="pillar-name">復原備份</div>
+          <div class="pillar-status">● 每日自動快照</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Metrics Row -->
+    <div class="metrics-row">
+      <div class="metric-card">
+        <div class="metric-card-label">累計稽核事件 (Audit Logs)</div>
+        <div class="metric-card-val" id="metric-total-logs">--</div>
+        <div class="metric-card-sub">↑ 完整不可篡改軌跡</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-card-label">成功認證次數 (Auth Success)</div>
+        <div class="metric-card-val" id="metric-auth-success">--</div>
+        <div class="metric-card-sub">✔ NIST SP 800-63B</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-card-label">密碼嘗試失敗 (Auth Failed)</div>
+        <div class="metric-card-val" id="metric-auth-fail" style="color:var(--warning);">--</div>
+        <div class="metric-card-sub">自動限制與鎖定機制啟動</div>
+      </div>
+      <div class="metric-card">
+        <div class="metric-card-label">未結案資安事件 (Active Incidents)</div>
+        <div class="metric-card-val" id="metric-incidents" style="color:var(--danger);">--</div>
+        <div class="metric-card-sub">自動觸發安全分析</div>
+      </div>
+    </div>
+
+    <!-- Active Incidents Section -->
+    <section style="margin-bottom:3rem;">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem;">
+        <h2 style="font-size:1.35rem; font-weight:700;">資安威脅警報與處置 (Security Incidents)</h2>
+        <button class="btn-header btn-outline-light" style="color:var(--text-main); border-color:var(--border-color); padding:0.35rem 0.75rem; font-size:0.8125rem;" onclick="loadIncidents()">🔄 重新整理</button>
+      </div>
+      <div id="incidents-list-container">
+        <!-- Rendered by security.js -->
+      </div>
+    </section>
+
+    <!-- Real-time Audit Logs Table -->
+    <section id="audit">
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap:wrap; gap:1rem;">
+        <div>
+          <h2 style="font-size:1.35rem; font-weight:700;">NIST CSF 2.0 系統稽核日誌流 (Real-time Audit Trails)</h2>
+          <p style="font-size:0.875rem; color:var(--text-muted);">記錄所有身分驗證、公告管理、郵件發送與權限存取事件</p>
+        </div>
+        <button class="btn-header btn-gold" style="padding:0.35rem 0.75rem; font-size:0.8125rem;" onclick="loadAuditLogs(); loadSecurityMetrics();">🔄 立即更新稽核日誌</button>
+      </div>
+
+      <div class="table-responsive">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>時間戳記 (Timestamp)</th>
+              <th>CSF 分類</th>
+              <th>事件類型 (Event)</th>
+              <th>使用者 (Actor)</th>
+              <th>客戶端 IP</th>
+              <th>嚴重等級</th>
+              <th>稽核詳細資訊 (Details)</th>
+            </tr>
+          </thead>
+          <tbody id="audit-logs-body">
+            <!-- Dynamically populated -->
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- Login Modal -->
+  <div id="login-modal" class="modal-backdrop">
+    <div class="modal-dialog">
+      <div class="card-header">
+        <h3 style="font-size:1.25rem; font-weight:700;">中華科技大學 管理員認證</h3>
+        <button onclick="closeLoginModal()" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color:var(--text-muted);">&times;</button>
+      </div>
+      <form onsubmit="handleLogin(event)">
+        <div class="card-body">
+          <div style="margin-bottom:1.25rem;">
+            <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.5rem;">帳號 (admin)</label>
+            <input type="text" id="login-username" class="news-search-input" style="width:100%;" placeholder="admin" required>
+          </div>
+          <div style="margin-bottom:1.25rem;">
+            <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.5rem;">密碼</label>
+            <input type="password" id="login-password" class="news-search-input" style="width:100%;" placeholder="CustAdmin2026!" required>
+          </div>
+        </div>
+        <div class="card-footer" style="display:flex; justify-content:flex-end; gap:0.75rem;">
+          <button type="button" class="btn-header btn-outline-light" style="color:var(--text-main); border-color:var(--border-strong);" onclick="closeLoginModal()">取消</button>
+          <button type="submit" class="btn-header btn-gold">登入</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="main-footer" style="margin-top:4rem;">
+    <div class="footer-bottom">
+      <div class="container">
+        <div>&copy; 2026 中華科技大學 China University of Science and Technology. All Rights Reserved.</div>
+        <div class="nist-shield-badge">🛡️ NIST CSF 2.0 Certified Security Hub</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="/js/app.js"></script>
+  <script src="/js/security.js"></script>
+</body>
+</html>

@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>學術單位與各院系所 - 中華科技大學 CUST</title>
+  <meta name="description" content="中華科技大學學術組織：航空學院、工程學院、健康科技暨管理學院及碩士班研究所。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/portal.css">
+</head>
+<body>
+
+  <!-- Accessibility Toolbar -->
+  <aside class="accessibility-bar">
+    <div class="container">
+      <div class="a11y-left">
+        <a href="/" style="color:#e2e8f0; font-weight:600;">← 返回中華科大首頁</a>
+      </div>
+      <div class="a11y-right">
+        <button id="theme-toggle-btn" class="a11y-btn">🌓 主題</button>
+        <button id="contrast-toggle-btn" class="a11y-btn">👁️ 高對比</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Header -->
+  <header class="main-header">
+    <div class="header-top">
+      <div class="container" style="display:flex; align-items:center;">
+        <a href="/" class="brand-wrapper">
+          <div class="brand-logo-badge">CUST</div>
+          <div class="brand-titles">
+            <h1>中華科技大學</h1>
+            <div class="brand-en">ACADEMIC COLLEGES &amp; DEPARTMENTS</div>
+          </div>
+        </a>
+        <div class="header-actions">
+          <div id="header-auth-section">
+            <button class="btn-header btn-gold" onclick="openLoginModal()">校園系統登入</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <nav class="main-nav container">
+      <ul class="nav-links">
+        <li class="nav-item"><a href="/" class="nav-link">首頁</a></li>
+        <li class="nav-item"><a href="/about.html" class="nav-link">關於中華</a></li>
+        <li class="nav-item"><a href="/academics.html" class="nav-link active">學術單位</a></li>
+        <li class="nav-item"><a href="/news.html" class="nav-link">新聞集錦與公告</a></li>
+        <li class="nav-item"><a href="/campus.html" class="nav-link">三大校區</a></li>
+        <li class="nav-item"><a href="/mail.html" class="nav-link">校園信箱</a></li>
+        <li class="nav-item"><a href="/security.html" class="nav-link">資安防護中心</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Banner -->
+  <div style="background:linear-gradient(135deg, var(--primary-800) 0%, var(--primary-900) 100%); color:#ffffff; padding:3.5rem 0;">
+    <div class="container">
+      <h1 style="font-size:2.25rem; font-weight:800; margin-bottom:0.5rem;">學術單位與教學特色</h1>
+      <p style="color:#cbd5e1; font-size:1.1rem;">三大卓越學院、前瞻碩士研究所與國際級專業實訓中心</p>
+    </div>
+  </div>
+
+  <main class="container" style="padding: 4rem 0;">
+    <!-- Aviation College -->
+    <div class="card" style="margin-bottom:3rem; border-top:5px solid var(--accent-gold);">
+      <div class="card-body" style="padding:2.5rem;">
+        <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:1rem; margin-bottom:1.5rem;">
+          <div>
+            <span class="badge badge-amber" style="margin-bottom:0.5rem;">全台唯一 EASA / CAA 雙認證</span>
+            <h2 style="font-size:1.85rem; font-weight:800; color:var(--primary-800);">✈️ 航空學院 (College of Aviation)</h2>
+          </div>
+          <a href="/news.html?category=ACADEMIC" class="btn-header btn-gold">查看學院最新動態</a>
+        </div>
+        <p style="font-size:1rem; color:var(--text-muted); line-height:1.8; margin-bottom:2rem;">
+          設於新竹校區，為全國規模最完整之民用航空科技專門人才培育學院。擁有標準停機坪、實體波音727客機、發動機修護廠及航空維修訓練中心（CAS）。
+        </p>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:1.5rem;">
+          <div style="background:var(--bg-subtle); padding:1.5rem; border-radius:var(--radius-md); border:1px solid var(--border-color);">
+            <h4 style="font-size:1.1rem; font-weight:700; color:var(--text-main); margin-bottom:0.5rem;">航空機械系 (碩士班/學士班)</h4>
+            <p style="font-size:0.875rem; color:var(--text-muted);">飛機結構、發動機動力系統、液壓與飛航安全維修技術。</p>
+          </div>
+          <div style="background:var(--bg-subtle); padding:1.5rem; border-radius:var(--radius-md); border:1px solid var(--border-color);">
+            <h4 style="font-size:1.1rem; font-weight:700; color:var(--text-main); margin-bottom:0.5rem;">航空電子系 (無人機科技組)</h4>
+            <p style="font-size:0.875rem; color:var(--text-muted);">雷達導航、通訊儀表、無人載具（UAV）自動控制與AI視覺辨識。</p>
+          </div>
+          <div style="background:var(--bg-subtle); padding:1.5rem; border-radius:var(--radius-md); border:1px solid var(--border-color);">
+            <h4 style="font-size:1.1rem; font-weight:700; color:var(--text-main); margin-bottom:0.5rem;">航空服務管理系</h4>
+            <p style="font-size:0.875rem; color:var(--text-muted);">空勤客艙安全、地勤運務排程、國際空運物流與機場營運。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Engineering College -->
+    <div class="card" style="margin-bottom:3rem; border-top:5px solid var(--primary-500);">
+      <div class="card-body" style="padding:2.5rem;">
+        <h2 style="font-size:1.85rem; font-weight:800; color:var(--primary-800); margin-bottom:1.5rem;">⚙️ 工程學院 (College of Engineering)</h2>
+        <p style="font-size:1rem; color:var(--text-muted); line-height:1.8; margin-bottom:2rem;">
+          聚焦於智慧製造、半導體精密加工、AI物聯網與綠色能源科技，鄰近南港軟體園區與竹科。
+        </p>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:1.5rem;">
+          <div style="background:var(--bg-subtle); padding:1.5rem; border-radius:var(--radius-md); border:1px solid var(--border-color);">
+            <h4 style="font-size:1.1rem; font-weight:700; color:var(--text-main); margin-bottom:0.5rem;">機械工程系 (精密智慧組)</h4>
+            <p style="font-size:0.875rem; color:var(--text-muted);">CNC多軸加工、機器人自動化生產線、工業4.0智慧產線。</p>
+          </div>
+          <div style="background:var(--bg-subtle); padding:1.5rem; border-radius:var(--radius-md); border:1px solid var(--border-color);">
+            <h4 style="font-size:1.1rem; font-weight:700; color:var(--text-main); margin-bottom:0.5rem;">資訊工程系 (AI與雲端資安)</h4>
+            <p style="font-size:0.875rem; color:var(--text-muted);">深度學習、邊緣運算、物聯網整合及 NIST 資通安全工程技術。</p>
+          </div>
+          <div style="background:var(--bg-subtle); padding:1.5rem; border-radius:var(--radius-md); border:1px solid var(--border-color);">
+            <h4 style="font-size:1.1rem; font-weight:700; color:var(--text-main); margin-bottom:0.5rem;">電機工程系 (綠能系統)</h4>
+            <p style="font-size:0.875rem; color:var(--text-muted);">智慧電網、功率半導體、儲能系統與電動車電控架構。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Health & Management College -->
+    <div class="card" style="border-top:5px solid var(--success);">
+      <div class="card-body" style="padding:2.5rem;">
+        <h2 style="font-size:1.85rem; font-weight:800; color:var(--primary-800); margin-bottom:1.5rem;">🌱 健康科技暨管理學院</h2>
+        <p style="font-size:1rem; color:var(--text-muted); line-height:1.8; margin-bottom:2rem;">
+          因應高齡福祉與健康產業浪潮，整合生物醫藥科技、食品安全檢驗與數位智慧商務。
+        </p>
+
+        <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(280px, 1fr)); gap:1.5rem;">
+          <div style="background:var(--bg-subtle); padding:1.5rem; border-radius:var(--radius-md); border:1px solid var(--border-color);">
+            <h4 style="font-size:1.1rem; font-weight:700; color:var(--text-main); margin-bottom:0.5rem;">生物科技系</h4>
+            <p style="font-size:0.875rem; color:var(--text-muted);">生物醫藥萃取、基因工程檢測與機能性保養品開發。</p>
+          </div>
+          <div style="background:var(--bg-subtle); padding:1.5rem; border-radius:var(--radius-md); border:1px solid var(--border-color);">
+            <h4 style="font-size:1.1rem; font-weight:700; color:var(--text-main); margin-bottom:0.5rem;">食品科學系</h4>
+            <p style="font-size:0.875rem; color:var(--text-muted);">HACCP食品安全驗證、營養調配與烘焙科技研發。</p>
+          </div>
+          <div style="background:var(--bg-subtle); padding:1.5rem; border-radius:var(--radius-md); border:1px solid var(--border-color);">
+            <h4 style="font-size:1.1rem; font-weight:700; color:var(--text-main); margin-bottom:0.5rem;">企業管理系 (數位商務行銷)</h4>
+            <p style="font-size:0.875rem; color:var(--text-muted);">跨境電商營運、大數據分析與新媒體品牌策略規劃。</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="footer-bottom">
+      <div class="container">
+        <div>&copy; 2026 中華科技大學 China University of Science and Technology. All Rights Reserved.</div>
+        <div class="nist-shield-badge">🛡️ NIST CSF 2.0 Certified Security Hub</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="/js/app.js"></script>
+</body>
+</html>

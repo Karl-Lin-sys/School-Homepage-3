@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>中華科技大學 China University of Science and Technology - 官方入口網站</title>
+  <meta name="description" content="中華科技大學 (CUST) 官方首頁。設有工程學院、健康科技暨管理學院、航空學院，提供國際級技職教育與產學創新。台北南港、新竹、雲林三大校區。">
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/portal.css">
+  <link rel="stylesheet" href="/css/news.css">
+</head>
+<body>
+
+  <!-- Accessibility Toolbar (WCAG 2.1 AA Compliant) -->
+  <aside class="accessibility-bar" aria-label="無障礙輔助與校區導覽">
+    <div class="container">
+      <div class="a11y-left">
+        <span style="font-weight:600; color:#e2e8f0;">中華科技大學 CUST</span>
+        <span class="campus-switch">
+          校區：
+          <a href="/campus.html#taipei">台北校區(校本部)</a>
+          <a href="/campus.html#hsinchu">新竹校區</a>
+          <a href="/campus.html#yunlin">雲林校區</a>
+        </span>
+      </div>
+      <div class="a11y-right">
+        <span>字體大小：</span>
+        <button id="font-decrease-btn" class="a11y-btn" title="縮小字體">A-</button>
+        <button id="font-increase-btn" class="a11y-btn" title="放大字體">A+</button>
+        <button id="theme-toggle-btn" class="a11y-btn" title="切換深淺模式">🌓 主題</button>
+        <button id="contrast-toggle-btn" class="a11y-btn" title="切換高對比度">👁️ 高對比</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Header & Branding -->
+  <header class="main-header" role="banner">
+    <div class="header-top">
+      <div class="container" style="display:flex; align-items:center;">
+        <a href="/" class="brand-wrapper" aria-label="中華科技大學首頁">
+          <div class="brand-logo-badge">CUST</div>
+          <div class="brand-titles">
+            <h1>中華科技大學</h1>
+            <div class="brand-en">CHINA UNIVERSITY OF SCIENCE AND TECHNOLOGY</div>
+          </div>
+        </a>
+        <div class="header-actions">
+          <div id="header-auth-section">
+            <button class="btn-header btn-gold" onclick="openLoginModal()">校園系統登入</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="main-nav container" role="navigation" aria-label="主導航選單">
+      <ul class="nav-links">
+        <li class="nav-item"><a href="/" class="nav-link active">首頁</a></li>
+        <li class="nav-item"><a href="/about.html" class="nav-link">關於中華</a></li>
+        <li class="nav-item"><a href="/academics.html" class="nav-link">學術單位</a></li>
+        <li class="nav-item"><a href="/news.html" class="nav-link">新聞集錦與公告</a></li>
+        <li class="nav-item"><a href="/campus.html" class="nav-link">三大校區</a></li>
+        <li class="nav-item"><a href="/mail.html" class="nav-link">校園信箱 <span class="nav-badge">NIST SP 800-177</span></a></li>
+        <li class="nav-item"><a href="/security.html" class="nav-link">資安防護中心 <span class="nav-badge">CSF 2.0</span></a></li>
+      </ul>
+      <button class="mobile-menu-btn" aria-label="開啟選單">☰</button>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="container hero-grid">
+      <div>
+        <div class="hero-tag">🎓 卓越技職 • 航空領航 • 永續創新</div>
+        <h1 class="hero-title">培育引領未來的<br><span>國際工程與航空菁英</span></h1>
+        <p class="hero-subtitle">中華科技大學以全人教育為本，深耕智慧工程、健康照護與全台唯一EASA歐盟認證之航空維修教育，建構理論與實務並進之世界級產學創新基地。</p>
+        <div class="hero-actions">
+          <a href="/news.html" class="btn-header btn-gold" style="padding:0.75rem 1.75rem; font-size:1rem;">最新公告動態</a>
+          <a href="/mail.html" class="btn-header btn-outline-light" style="padding:0.75rem 1.75rem; font-size:1rem;">進入校園 Webmail</a>
+          <a href="/security.html" class="btn-header btn-outline-light" style="padding:0.75rem 1.75rem; font-size:1rem;">NIST 資安監控</a>
+        </div>
+      </div>
+      <div>
+        <div class="hero-card">
+          <h3 style="font-size:1.25rem; font-weight:700; margin-bottom:1.5rem; color:#ffffff;">三大核心校務成果指標</h3>
+          <div class="hero-stats-grid">
+            <div class="hero-stat-item">
+              <div class="hero-stat-num">58年</div>
+              <div class="hero-stat-label">深耕技職 創校卓越歷史</div>
+            </div>
+            <div class="hero-stat-item">
+              <div class="hero-stat-num">EASA</div>
+              <div class="hero-stat-label">歐盟航空安全局 權威認證</div>
+            </div>
+            <div class="hero-stat-item">
+              <div class="hero-stat-num">3大</div>
+              <div class="hero-stat-label">校區 (台北/新竹/雲林)</div>
+            </div>
+            <div class="hero-stat-item">
+              <div class="hero-stat-num">96.8%</div>
+              <div class="hero-stat-label">畢業生就業與產學媒合率</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quick Access Service Bar -->
+  <section class="quick-access-bar" aria-label="常用快捷服務">
+    <div class="container">
+      <div class="quick-links-grid">
+        <a href="/news.html?category=IMPORTANT" class="quick-link-item">
+          <div class="quick-link-icon">📢</div>
+          <div class="quick-link-title">重要公告</div>
+        </a>
+        <a href="/mail.html" class="quick-link-item">
+          <div class="quick-link-icon">✉️</div>
+          <div class="quick-link-title">校園電子郵件</div>
+        </a>
+        <a href="/news.html?category=ADMISSIONS" class="quick-link-item">
+          <div class="quick-link-icon">📝</div>
+          <div class="quick-link-title">新生與招生網</div>
+        </a>
+        <a href="/academics.html" class="quick-link-item">
+          <div class="quick-link-icon">📚</div>
+          <div class="quick-link-title">學術學院系所</div>
+        </a>
+        <a href="/news.html?category=SCHOLARSHIP" class="quick-link-item">
+          <div class="quick-link-icon">🏆</div>
+          <div class="quick-link-title">獎助學金專區</div>
+        </a>
+        <a href="/security.html" class="quick-link-item">
+          <div class="quick-link-icon">🛡️</div>
+          <div class="quick-link-title">資安防護中心</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured News Section -->
+  <section style="padding: 4.5rem 0;" class="container">
+    <div style="display:flex; justify-content:space-between; align-items:flex-end; margin-bottom:2rem; flex-wrap:wrap; gap:1rem;">
+      <div>
+        <div class="section-tag">NEWS &amp; ANNOUNCEMENTS</div>
+        <h2 class="section-title">焦點新聞與重要公告</h2>
+      </div>
+      <a href="/news.html" class="btn-header btn-gold" style="padding:0.5rem 1.25rem;">瀏覽全部公告 ➔</a>
+    </div>
+
+    <div id="portal-featured-news" class="news-list">
+      <!-- Dynamically filled by JS or default render -->
+      <article class="news-card pinned" onclick="location.href='/news.html'">
+        <div class="news-meta-row">
+          <span class="pinned-badge">📌 置頂重要</span>
+          <span class="badge badge-red">重要公告</span>
+          <span>發布單位：校長室 / 研發處</span>
+          <span>•</span>
+          <span>2026/08/14</span>
+        </div>
+        <h2 class="news-title">【重要】中華科技大學通過教育部高等教育深耕計畫評鑑獲特優補助</h2>
+        <p class="news-summary">本校榮獲教育部115年度高教深耕計畫評鑑特優肯定，獲核定全額獎助經費！全面推動智慧航空與AI創新教學，打造全國頂尖之技職教育標竿體系。</p>
+      </article>
+
+      <article class="news-card pinned" onclick="location.href='/news.html'">
+        <div class="news-meta-row">
+          <span class="pinned-badge">📌 置頂重要</span>
+          <span class="badge badge-blue">學術活動</span>
+          <span>發布單位：航空學院</span>
+          <span>•</span>
+          <span>2026/08/12</span>
+        </div>
+        <h2 class="news-title">【航空學院】中華科技大學航空維修教育中心通過EASA歐洲航空安全局認證評鑑</h2>
+        <p class="news-summary">航空維修教育中心（CAS）再次順利通過歐盟EASA Part-147及民航局CAA雙重嚴格檢驗，培育國際一流飛航修護菁英。</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- Academics & Colleges Showcase -->
+  <section class="colleges-section" style="background-color:var(--bg-subtle);">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">ACADEMIC COLLEGES</div>
+        <h2 class="section-title">卓越學院與專業學系</h2>
+        <p class="section-desc">結合頂尖師資、先進實驗設備與完整產業實習鏈，引領學生開拓專業領域前瞻競爭力。</p>
+      </div>
+
+      <div class="colleges-grid">
+        <!-- Aviation College -->
+        <div class="college-card">
+          <div class="college-header">
+            <span class="college-badge">全台首創 • 歐盟EASA認證</span>
+            <h3 class="college-title">航空學院 (Aviation)</h3>
+            <p style="font-size:0.875rem; color:var(--text-muted);">擁有波音727客機與噴射發動機實驗室，全方位培育飛航、航電與空運管理菁英。</p>
+          </div>
+          <div class="college-body">
+            <ul class="college-depts">
+              <li>航空機械系 (飛機修護組 / 動力組)</li>
+              <li>航空電子系 (無人機科技應用)</li>
+              <li>航空服務管理系 (地勤與空運物流)</li>
+              <li>航空維修教育訓練中心 (CAS)</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Engineering College -->
+        <div class="college-card">
+          <div class="college-header">
+            <span class="college-badge">智慧製造 • AI物聯網</span>
+            <h3 class="college-title">工程學院 (Engineering)</h3>
+            <p style="font-size:0.875rem; color:var(--text-muted);">聚焦半導體製程、智慧機器人與綠能科技，產學無縫接軌科學園區。</p>
+          </div>
+          <div class="college-body">
+            <ul class="college-depts">
+              <li>機械工程系 (智慧精密製造)</li>
+              <li>電機工程系 (綠能與電力系統)</li>
+              <li>資訊工程系 (AI演算法與雲端資安)</li>
+              <li>建築工程與室內設計系</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Health & Management College -->
+        <div class="college-card">
+          <div class="college-header">
+            <span class="college-badge">健康照護 • 智慧商管</span>
+            <h3 class="college-title">健康科技暨管理學院</h3>
+            <p style="font-size:0.875rem; color:var(--text-muted);">整合生物科技、數位行銷與高齡健康福祉，培育跨領域健康與商業創新人才。</p>
+          </div>
+          <div class="college-body">
+            <ul class="college-depts">
+              <li>生物科技系 (醫藥應用組)</li>
+              <li>食品科學系 (安全檢驗與研發)</li>
+              <li>企業管理系 (數位商務行銷)</li>
+              <li>餐旅管理系 (國際觀光經營)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 Campuses -->
+  <section class="campuses-section">
+    <div class="container">
+      <div class="section-header">
+        <div class="section-tag">THREE CAMPUSES</div>
+        <h2 class="section-title">三大現代化校區</h2>
+        <p class="section-desc">分佈於台北南港校本部、新竹校區與雲林校區，打造完善學術與實務實訓環境。</p>
+      </div>
+
+      <div class="campuses-grid">
+        <div class="campus-card">
+          <div class="campus-tag">TAIPEI HEADQUARTERS</div>
+          <h3 class="campus-name">台北校區 (校本部)</h3>
+          <div class="campus-address">📍 115311 台北市南港區研究院路三段245號</div>
+          <div class="campus-features">
+            緊鄰中央研究院與南港軟體園區，交通便捷，設有現代化圖書館、學生活動中心與工程實驗大樓。
+          </div>
+        </div>
+
+        <div class="campus-card">
+          <div class="campus-tag">HSINCHU AVIATION BASE</div>
+          <h3 class="campus-name">新竹校區 (航空基地)</h3>
+          <div class="campus-address">📍 31241 新竹縣橫山鄉中華街200號</div>
+          <div class="campus-features">
+            全台規模最大之民航修護實訓基地，擁有標準停機坪、B727大型實體噴射客機與風洞實驗室。
+          </div>
+        </div>
+
+        <div class="campus-card">
+          <div class="campus-tag">YUNLIN AGRI-TECH BASE</div>
+          <h3 class="campus-name">雲林校區 (生技產學)</h3>
+          <div class="campus-address">📍 64643 雲林縣古坑鄉崁腳村南昌路6-26號</div>
+          <div class="campus-features">
+            綠能生態與農業生技實習園區，專注於健康科技、食品檢驗與在地創生跨界實務研究。
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Login Modal -->
+  <div id="login-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="login-modal-title">
+    <div class="modal-dialog">
+      <div class="card-header">
+        <h3 id="login-modal-title" style="font-size:1.25rem; font-weight:700;">中華科技大學 統一身分認證 (SSO)</h3>
+        <button onclick="closeLoginModal()" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color:var(--text-muted);">&times;</button>
+      </div>
+      <form onsubmit="handleLogin(event)">
+        <div class="card-body">
+          <div style="margin-bottom:1.25rem;">
+            <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.5rem;" for="login-username">校園帳號 / 學號 / 員編 (Username / Email)</label>
+            <input type="text" id="login-username" class="news-search-input" style="width:100%;" placeholder="例如：admin 或 chen.jh@cust.edu.tw" required>
+          </div>
+          <div style="margin-bottom:1.25rem;">
+            <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.5rem;" for="login-password">密碼 (Password)</label>
+            <input type="password" id="login-password" class="news-search-input" style="width:100%;" placeholder="請輸入密碼" required>
+          </div>
+          <div style="background-color:var(--bg-subtle); padding:0.85rem; border-radius:var(--radius-sm); font-size:0.8125rem; color:var(--text-muted); margin-bottom:1rem;">
+            🔒 本系統符合 <strong>NIST SP 800-63B 數位身分認證規範</strong>，密碼採用高強度 Argon2/BCrypt 雜湊加密。測試帳號：<code>admin</code> / 密碼：<code>CustAdmin2026!</code>
+          </div>
+        </div>
+        <div class="card-footer" style="display:flex; justify-content:flex-end; gap:0.75rem;">
+          <button type="button" class="btn-header btn-outline-light" style="color:var(--text-main); border-color:var(--border-strong);" onclick="closeLoginModal()">取消</button>
+          <button type="submit" class="btn-header btn-gold">安全登入</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="main-footer" role="contentinfo">
+    <div class="footer-top">
+      <div class="container footer-grid">
+        <div class="footer-brand">
+          <h2>中華科技大學</h2>
+          <p>China University of Science and Technology (CUST)<br>卓越技職教育 • 航空修護培訓 • 智慧工程創新</p>
+          <div style="font-size:0.8125rem; line-height:1.8;">
+            校本部電話：(02) 2782-1862 ~ 4<br>
+            校址：115311 台北市南港區研究院路三段245號
+          </div>
+        </div>
+        <div class="footer-col">
+          <h3>三大校區</h3>
+          <ul class="footer-links">
+            <li><a href="/campus.html#taipei">台北校區 (南港校本部)</a></li>
+            <li><a href="/campus.html#hsinchu">新竹校區 (航空學院基地)</a></li>
+            <li><a href="/campus.html#yunlin">雲林校區 (生技產學園區)</a></li>
+            <li><a href="/about.html#transport">交通與地圖指引</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h3>校園服務</h3>
+          <ul class="footer-links">
+            <li><a href="/news.html">最新公告與新聞</a></li>
+            <li><a href="/mail.html">校園 Webmail 系統</a></li>
+            <li><a href="/academics.html">學院與各系所</a></li>
+            <li><a href="/news.html?category=SCHOLARSHIP">獎補助與就學專區</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h3>資安與法令</h3>
+          <ul class="footer-links">
+            <li><a href="/security.html">NIST CSF 2.0 資安專區</a></li>
+            <li><a href="/security.html#audit">資通安全稽核政策</a></li>
+            <li><a href="/about.html#privacy">隱私權保護宣告</a></li>
+            <li><a href="/about.html#copyright">智慧財產權宣導</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="container">
+        <div>&copy; 2026 中華科技大學 China University of Science and Technology. All Rights Reserved.</div>
+        <div class="nist-shield-badge">
+          🛡️ NIST CSF 2.0 &amp; SP 800-177 Certified Secure Infrastructure
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="/js/app.js"></script>
+</body>
+</html>

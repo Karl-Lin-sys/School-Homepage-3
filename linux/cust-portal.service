@@ -1,0 +1,27 @@
+[Unit]
+Description=China University of Science and Technology (CUST) Full-Stack Enterprise Portal
+Documentation=https://www.cust.edu.tw
+After=syslog.target network.target postgresql.service
+
+[Service]
+Type=simple
+User=custapp
+Group=custapp
+WorkingDirectory=/opt/cust-portal
+Environment="JAVA_HOME=/usr/lib/jvm/temurin-21-jdk-amd64"
+Environment="SPRING_PROFILES_ACTIVE=prod"
+ExecStart=/usr/bin/java -XX:+UseG1GC -XX:MaxRAMPercentage=75.0 -jar /opt/cust-portal/cust-portal.jar
+SuccessExitStatus=143
+Restart=on-failure
+RestartSec=10s
+LimitNOFILE=65536
+
+# Hardened systemd security directives (NIST PR.IP)
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/opt/cust-portal/logs /opt/cust-portal/data
+PrivateTmp=true
+NoNewPrivileges=true
+
+[Install]
+WantedBy=multi-user.target

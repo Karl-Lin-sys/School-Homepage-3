@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>新聞集錦與校園公告 - 中華科技大學 CUST</title>
+  <meta name="description" content="中華科技大學最新消息與重要公告。涵蓋教務、學務、招生、學術研討、獎助學金與產學成果。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/portal.css">
+  <link rel="stylesheet" href="/css/news.css">
+</head>
+<body>
+
+  <!-- Accessibility Toolbar -->
+  <aside class="accessibility-bar">
+    <div class="container">
+      <div class="a11y-left">
+        <a href="/" style="color:#e2e8f0; font-weight:600;">← 返回中華科大首頁</a>
+      </div>
+      <div class="a11y-right">
+        <button id="font-decrease-btn" class="a11y-btn">A-</button>
+        <button id="font-increase-btn" class="a11y-btn">A+</button>
+        <button id="theme-toggle-btn" class="a11y-btn">🌓 主題</button>
+        <button id="contrast-toggle-btn" class="a11y-btn">👁️ 高對比</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Header -->
+  <header class="main-header">
+    <div class="header-top">
+      <div class="container" style="display:flex; align-items:center;">
+        <a href="/" class="brand-wrapper">
+          <div class="brand-logo-badge">CUST</div>
+          <div class="brand-titles">
+            <h1>中華科技大學</h1>
+            <div class="brand-en">NEWS &amp; ANNOUNCEMENTS HUB</div>
+          </div>
+        </a>
+        <div class="header-actions">
+          <div id="header-auth-section">
+            <button class="btn-header btn-gold" onclick="openLoginModal()">校園系統登入</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation Bar -->
+    <nav class="main-nav container">
+      <ul class="nav-links">
+        <li class="nav-item"><a href="/" class="nav-link">首頁</a></li>
+        <li class="nav-item"><a href="/about.html" class="nav-link">關於中華</a></li>
+        <li class="nav-item"><a href="/academics.html" class="nav-link">學術單位</a></li>
+        <li class="nav-item"><a href="/news.html" class="nav-link active">新聞集錦與公告</a></li>
+        <li class="nav-item"><a href="/campus.html" class="nav-link">三大校區</a></li>
+        <li class="nav-item"><a href="/mail.html" class="nav-link">校園信箱</a></li>
+        <li class="nav-item"><a href="/security.html" class="nav-link">資安防護中心</a></li>
+      </ul>
+      <button class="mobile-menu-btn">☰</button>
+    </nav>
+  </header>
+
+  <!-- Hub Header Banner -->
+  <div class="news-hub-header">
+    <div class="container" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1.5rem;">
+      <div>
+        <h1>新聞集錦與全校公告</h1>
+        <p>掌握中華科技大學最新校務動態、學術卓越、招生資訊與獎助專區</p>
+      </div>
+      <div>
+        <button class="btn-header btn-gold" onclick="openCreateNewsModal()">+ 發布新公告 (教職員)</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content Area -->
+  <main class="container">
+    <!-- Controls: Search & Category Tabs -->
+    <div class="news-control-bar">
+      <div class="news-search-box">
+        <input type="text" id="news-search-input" class="news-search-input" placeholder="🔍 輸入關鍵字搜尋標題、內容或發布單位...">
+      </div>
+      <div id="category-tabs-container" class="category-tabs">
+        <!-- Dynamically loaded -->
+        <button class="cat-tab active">全部公告 (All)</button>
+      </div>
+    </div>
+
+    <!-- News List -->
+    <div id="news-list-container" class="news-list">
+      <!-- Dynamically filled by news.js -->
+    </div>
+
+    <!-- Pagination -->
+    <div id="news-pagination" class="pagination"></div>
+  </main>
+
+  <!-- News Detail Modal -->
+  <div id="news-detail-modal" class="modal-backdrop" role="dialog" aria-modal="true">
+    <div class="modal-dialog">
+      <div class="card-header">
+        <h3 id="modal-news-title" style="font-size:1.35rem; font-weight:700; line-height:1.4;">公告標題</h3>
+        <button onclick="closeNewsDetailModal()" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color:var(--text-muted);">&times;</button>
+      </div>
+      <div class="card-body">
+        <div style="display:flex; gap:1rem; font-size:0.8125rem; color:var(--text-muted); margin-bottom:1.5rem; border-bottom:1px solid var(--border-color); padding-bottom:0.75rem; flex-wrap:wrap;">
+          <span>發布單位：<strong id="modal-news-dept"></strong></span>
+          <span>發布日期：<strong id="modal-news-date"></strong></span>
+          <span>點閱人次：<strong id="modal-news-views"></strong> 次</span>
+        </div>
+        <div id="modal-news-content" style="font-size:1rem; line-height:1.8; color:var(--text-main); white-space:pre-wrap; margin-bottom:1.5rem;"></div>
+
+        <div id="modal-news-attachment" class="attachment-box" style="display:none;">
+          <div style="display:flex; align-items:center; gap:0.75rem;">
+            <span style="font-size:1.5rem;">📎</span>
+            <div>
+              <div style="font-weight:600;" id="modal-attachment-name">附檔名稱.pdf</div>
+              <div style="font-size:0.75rem; color:var(--text-muted);">官方認證安全附件 (PDF/DOC)</div>
+            </div>
+          </div>
+          <button class="btn-header btn-gold" onclick="showToast('正在下載官方附件檔案', 'success')">下載附件</button>
+        </div>
+      </div>
+      <div class="card-footer" style="display:flex; justify-content:flex-end;">
+        <button class="btn-header btn-outline-light" style="color:var(--text-main); border-color:var(--border-strong);" onclick="closeNewsDetailModal()">關閉</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Create News Modal (Admin / Faculty) -->
+  <div id="create-news-modal" class="modal-backdrop" role="dialog" aria-modal="true">
+    <div class="modal-dialog">
+      <div class="card-header">
+        <h3 style="font-size:1.25rem; font-weight:700;">發布新公告 (CMS)</h3>
+        <button onclick="closeCreateNewsModal()" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color:var(--text-muted);">&times;</button>
+      </div>
+      <form onsubmit="handleCreateNews(event)">
+        <div class="card-body">
+          <div style="margin-bottom:1rem;">
+            <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.4rem;">公告標題 *</label>
+            <input type="text" id="create-news-title" class="news-search-input" style="width:100%;" placeholder="請輸入清楚完整的公告標題" required>
+          </div>
+          <div style="margin-bottom:1rem;">
+            <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.4rem;">公告類別 *</label>
+            <select id="create-news-category" class="news-search-input" style="width:100%;"></select>
+          </div>
+          <div style="margin-bottom:1rem;">
+            <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.4rem;">公告內容 *</label>
+            <textarea id="create-news-content" class="news-search-input" style="width:100%; height:140px;" placeholder="請輸入詳細公告內文..." required></textarea>
+          </div>
+          <div style="margin-bottom:1rem;">
+            <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.4rem;">摘要說明 (選填)</label>
+            <input type="text" id="create-news-summary" class="news-search-input" style="width:100%;" placeholder="簡述此公告核心要點">
+          </div>
+          <div style="margin-bottom:1rem;">
+            <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.4rem;">附件檔案名稱 (選填)</label>
+            <input type="text" id="create-news-attach-name" class="news-search-input" style="width:100%;" placeholder="例如：115學年度實施計畫.pdf">
+          </div>
+          <div style="display:flex; align-items:center; gap:0.5rem;">
+            <input type="checkbox" id="create-news-pinned">
+            <label for="create-news-pinned" style="font-size:0.875rem; font-weight:600; cursor:pointer;">📌 將此公告置頂 (Pin to top)</label>
+          </div>
+        </div>
+        <div class="card-footer" style="display:flex; justify-content:flex-end; gap:0.75rem;">
+          <button type="button" class="btn-header btn-outline-light" style="color:var(--text-main); border-color:var(--border-strong);" onclick="closeCreateNewsModal()">取消</button>
+          <button type="submit" class="btn-header btn-gold">確認發布</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Login Modal -->
+  <div id="login-modal" class="modal-backdrop">
+    <div class="modal-dialog">
+      <div class="card-header">
+        <h3 style="font-size:1.25rem; font-weight:700;">中華科技大學 統一身分認證 (SSO)</h3>
+        <button onclick="closeLoginModal()" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color:var(--text-muted);">&times;</button>
+      </div>
+      <form onsubmit="handleLogin(event)">
+        <div class="card-body">
+          <div style="margin-bottom:1.25rem;">
+            <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.5rem;">校園帳號 (Username / Email)</label>
+            <input type="text" id="login-username" class="news-search-input" style="width:100%;" placeholder="admin" required>
+          </div>
+          <div style="margin-bottom:1.25rem;">
+            <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.5rem;">密碼 (Password)</label>
+            <input type="password" id="login-password" class="news-search-input" style="width:100%;" placeholder="CustAdmin2026!" required>
+          </div>
+        </div>
+        <div class="card-footer" style="display:flex; justify-content:flex-end; gap:0.75rem;">
+          <button type="button" class="btn-header btn-outline-light" style="color:var(--text-main); border-color:var(--border-strong);" onclick="closeLoginModal()">取消</button>
+          <button type="submit" class="btn-header btn-gold">登入</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="main-footer" style="margin-top:4rem;">
+    <div class="footer-bottom">
+      <div class="container">
+        <div>&copy; 2026 中華科技大學 China University of Science and Technology. All Rights Reserved.</div>
+        <div class="nist-shield-badge">🛡️ NIST CSF 2.0 Certified Security Hub</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="/js/app.js"></script>
+  <script src="/js/news.js"></script>
+</body>
+</html>

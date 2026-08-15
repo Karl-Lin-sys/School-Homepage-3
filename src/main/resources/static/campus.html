@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>三大校區導覽與交通指引 - 中華科技大學 CUST</title>
+  <meta name="description" content="中華科技大學台北南港校本部、新竹航空校區、雲林古坑校區地理位置與交通乘車導引。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/portal.css">
+</head>
+<body>
+
+  <!-- Accessibility Toolbar -->
+  <aside class="accessibility-bar">
+    <div class="container">
+      <div class="a11y-left">
+        <a href="/" style="color:#e2e8f0; font-weight:600;">← 返回中華科大首頁</a>
+      </div>
+      <div class="a11y-right">
+        <button id="theme-toggle-btn" class="a11y-btn">🌓 主題</button>
+        <button id="contrast-toggle-btn" class="a11y-btn">👁️ 高對比</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Header -->
+  <header class="main-header">
+    <div class="header-top">
+      <div class="container" style="display:flex; align-items:center;">
+        <a href="/" class="brand-wrapper">
+          <div class="brand-logo-badge">CUST</div>
+          <div class="brand-titles">
+            <h1>中華科技大學</h1>
+            <div class="brand-en">CAMPUS LOCATIONS &amp; TRANSPORTATION</div>
+          </div>
+        </a>
+        <div class="header-actions">
+          <div id="header-auth-section">
+            <button class="btn-header btn-gold" onclick="openLoginModal()">校園系統登入</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <nav class="main-nav container">
+      <ul class="nav-links">
+        <li class="nav-item"><a href="/" class="nav-link">首頁</a></li>
+        <li class="nav-item"><a href="/about.html" class="nav-link">關於中華</a></li>
+        <li class="nav-item"><a href="/academics.html" class="nav-link">學術單位</a></li>
+        <li class="nav-item"><a href="/news.html" class="nav-link">新聞集錦與公告</a></li>
+        <li class="nav-item"><a href="/campus.html" class="nav-link active">三大校區</a></li>
+        <li class="nav-item"><a href="/mail.html" class="nav-link">校園信箱</a></li>
+        <li class="nav-item"><a href="/security.html" class="nav-link">資安防護中心</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Banner -->
+  <div style="background:linear-gradient(135deg, var(--primary-800) 0%, var(--primary-900) 100%); color:#ffffff; padding:3.5rem 0;">
+    <div class="container">
+      <h1 style="font-size:2.25rem; font-weight:800; margin-bottom:0.5rem;">三大校區與交通指南</h1>
+      <p style="color:#cbd5e1; font-size:1.1rem;">台北校本部、新竹航空基地、雲林產學園區 地圖與公車捷運指南</p>
+    </div>
+  </div>
+
+  <main class="container" style="padding: 4rem 0;">
+    <!-- Taipei Campus -->
+    <div id="taipei" class="card" style="margin-bottom:3rem;">
+      <div class="card-body" style="padding:2.5rem;">
+        <span class="badge badge-blue" style="margin-bottom:0.5rem;">校本部 (HEADQUARTERS)</span>
+        <h2 style="font-size:1.75rem; font-weight:800; color:var(--primary-800); margin-bottom:0.75rem;">台北校區 (南港校本部)</h2>
+        <div style="font-size:0.95rem; color:var(--text-muted); margin-bottom:1.5rem;">
+          📍 地址：115311 台北市南港區研究院路三段245號 | 總機：(02) 2782-1862 ~ 4
+        </div>
+        <p style="line-height:1.8; color:var(--text-main); margin-bottom:1.5rem;">
+          台北校區座落於南港區，依傍南港山系，環境優美宜人。鄰近中研院與南港展覽館，設有圖書資訊大樓、復華工程館、文泰醫事館與國際演藝廳。
+        </p>
+        <div style="background:var(--bg-subtle); padding:1.25rem; border-radius:var(--radius-md); border:1px solid var(--border-color);">
+          <h4 style="font-weight:700; color:var(--text-main); margin-bottom:0.5rem;">🚌 大眾運輸指引：</h4>
+          <ul style="padding-left:1.25rem; font-size:0.875rem; color:var(--text-muted); line-height:1.7;">
+            <li><strong>捷運板南線：</strong>至【南港展覽館站】或【南港站】轉乘指南客運 205、小1、小12、620 或 270 至「中華科技大學站」下車即達。</li>
+            <li><strong>台鐵/高鐵：</strong>至【南港車站】下車，於忠孝東路七段轉乘公車 205 或 270 約 10 分鐘可抵達。</li>
+            <li><strong>自用車國道：</strong>國道三號（福高）南港交流道下，接橫科路左轉研究院路一段直行至三段。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hsinchu Campus -->
+    <div id="hsinchu" class="card" style="margin-bottom:3rem;">
+      <div class="card-body" style="padding:2.5rem;">
+        <span class="badge badge-amber" style="margin-bottom:0.5rem;">航空基地 (AVIATION BASE)</span>
+        <h2 style="font-size:1.75rem; font-weight:800; color:var(--primary-800); margin-bottom:0.75rem;">新竹校區 (航空學院實訓基地)</h2>
+        <div style="font-size:0.95rem; color:var(--text-muted); margin-bottom:1.5rem;">
+          📍 地址：31241 新竹縣橫山鄉中華街200號 | 電話：(03) 593-5707
+        </div>
+        <p style="line-height:1.8; color:var(--text-main); margin-bottom:1.5rem;">
+          佔地14公頃，專為航空教育打造，設有民航修護停機坪、實體飛機展示庫、JT9D噴射引擎檢驗台及CAS航空維修培訓教室。
+        </p>
+        <div style="background:var(--bg-subtle); padding:1.25rem; border-radius:var(--radius-md); border:1px solid var(--border-color);">
+          <h4 style="font-weight:700; color:var(--text-main); margin-bottom:0.5rem;">🚆 交通乘車指引：</h4>
+          <ul style="padding-left:1.25rem; font-size:0.875rem; color:var(--text-muted); line-height:1.7;">
+            <li><strong>台鐵內灣支線：</strong>搭乘至【橫山車站】或【九讚頭站】，步行或接駁車 5 分鐘抵達校區。</li>
+            <li><strong>台灣高鐵：</strong>至【高鐵新竹站】轉乘台鐵六家線至竹中站，再轉內灣線至九讚頭站。</li>
+            <li><strong>國道三號：</strong>自竹林交流道下，往竹東方向沿台120線直行至橫山鄉中華街。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <!-- Yunlin Campus -->
+    <div id="yunlin" class="card">
+      <div class="card-body" style="padding:2.5rem;">
+        <span class="badge badge-green" style="margin-bottom:0.5rem;">生技產學 (AGRI-TECH PARK)</span>
+        <h2 style="font-size:1.75rem; font-weight:800; color:var(--primary-800); margin-bottom:0.75rem;">雲林校區 (健康科技產學園區)</h2>
+        <div style="font-size:0.95rem; color:var(--text-muted); margin-bottom:1.5rem;">
+          📍 地址：64643 雲林縣古坑鄉崁腳村南昌路6-26號 | 電話：(05) 582-8855
+        </div>
+        <p style="line-height:1.8; color:var(--text-main); margin-bottom:1.5rem;">
+          結合中南部精緻農業、健康生技與綠色有機產業，設有生物萃取製程廠、食品安全檢驗中心與在地創生育成基地。
+        </p>
+        <div style="background:var(--bg-subtle); padding:1.25rem; border-radius:var(--radius-md); border:1px solid var(--border-color);">
+          <h4 style="font-weight:700; color:var(--text-main); margin-bottom:0.5rem;">🚗 交通乘車指引：</h4>
+          <ul style="padding-left:1.25rem; font-size:0.875rem; color:var(--text-muted); line-height:1.7;">
+            <li><strong>國道三號：</strong>自古坑交流道或古坑系統下，沿台三線轉南昌路即抵達。</li>
+            <li><strong>台鐵：</strong>至【斗六車站】轉乘台西客運或校園接駁專車約 15 分鐘可達。</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="footer-bottom">
+      <div class="container">
+        <div>&copy; 2026 中華科技大學 China University of Science and Technology. All Rights Reserved.</div>
+        <div class="nist-shield-badge">🛡️ NIST CSF 2.0 Certified Security Hub</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="/js/app.js"></script>
+</body>
+</html>
