@@ -1,0 +1,73 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+    session:
+      cookie:
+        http-only: true
+        secure: false # set true in prod with HTTPS
+        same-site: STRICT
+        max-age: 7200s
+
+spring:
+  application:
+    name: cust-portal-fullstack
+  datasource:
+    url: jdbc:h2:mem:custdb;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE
+    driverClassName: org.h2.Driver
+    username: sa
+    password: CustSecurePassword2026!
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+      settings:
+        web-allow-others: false
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+  mail:
+    host: smtp.cust.edu.tw
+    port: 587
+    username: no-reply@cust.edu.tw
+    password: SimulatedPassword123!
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+          ssl:
+            protocols: TLSv1.2 TLSv1.3
+
+# NIST CSF 2.0 & Application Security Configuration
+app:
+  jwt:
+    secret: 9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a0b9c8d7e6f5a4b3c2d1e0f9a8b7c6d5e4f3a2b1c0d9e8f7a6b5c4d3e2f1a0b9c8d7e6f5a4b3c2d1e0f
+    expiration-ms: 86400000 # 24 hours
+  nist:
+    audit:
+      retention-days: 365
+      log-all-auth: true
+      alert-failed-threshold: 5
+    email:
+      domain: cust.edu.tw
+      enforce-spf: true
+      enforce-dkim: true
+      enforce-dmarc: true
+      scan-attachments: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: when_authorized

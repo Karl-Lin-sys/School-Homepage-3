@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>關於中華 - 中華科技大學 CUST</title>
+  <meta name="description" content="中華科技大學創校歷史、辦學願景、教育目標與校園導覽。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/portal.css">
+</head>
+<body>
+
+  <!-- Accessibility Toolbar -->
+  <aside class="accessibility-bar">
+    <div class="container">
+      <div class="a11y-left">
+        <a href="/" style="color:#e2e8f0; font-weight:600;">← 返回中華科大首頁</a>
+      </div>
+      <div class="a11y-right">
+        <button id="theme-toggle-btn" class="a11y-btn">🌓 主題</button>
+        <button id="contrast-toggle-btn" class="a11y-btn">👁️ 高對比</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Header -->
+  <header class="main-header">
+    <div class="header-top">
+      <div class="container" style="display:flex; align-items:center;">
+        <a href="/" class="brand-wrapper">
+          <div class="brand-logo-badge">CUST</div>
+          <div class="brand-titles">
+            <h1>中華科技大學</h1>
+            <div class="brand-en">ABOUT CHINA UNIVERSITY OF SCIENCE AND TECHNOLOGY</div>
+          </div>
+        </a>
+        <div class="header-actions">
+          <div id="header-auth-section">
+            <button class="btn-header btn-gold" onclick="openLoginModal()">校園系統登入</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <nav class="main-nav container">
+      <ul class="nav-links">
+        <li class="nav-item"><a href="/" class="nav-link">首頁</a></li>
+        <li class="nav-item"><a href="/about.html" class="nav-link active">關於中華</a></li>
+        <li class="nav-item"><a href="/academics.html" class="nav-link">學術單位</a></li>
+        <li class="nav-item"><a href="/news.html" class="nav-link">新聞集錦與公告</a></li>
+        <li class="nav-item"><a href="/campus.html" class="nav-link">三大校區</a></li>
+        <li class="nav-item"><a href="/mail.html" class="nav-link">校園信箱</a></li>
+        <li class="nav-item"><a href="/security.html" class="nav-link">資安防護中心</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Banner -->
+  <div style="background:linear-gradient(135deg, var(--primary-800) 0%, var(--primary-900) 100%); color:#ffffff; padding:3.5rem 0;">
+    <div class="container">
+      <h1 style="font-size:2.25rem; font-weight:800; margin-bottom:0.5rem;">關於中華科技大學</h1>
+      <p style="color:#cbd5e1; font-size:1.1rem;">秉持「誠、敬、敏、慧」校訓，立足台灣、放眼全球之科技創新學府</p>
+    </div>
+  </div>
+
+  <main class="container" style="padding: 4rem 0;">
+    <section class="card" style="margin-bottom:3rem;">
+      <div class="card-body" style="padding:2.5rem;">
+        <h2 style="font-size:1.75rem; font-weight:800; color:var(--primary-800); margin-bottom:1.25rem;">學校歷史與沿革</h2>
+        <p style="font-size:1.05rem; line-height:1.8; color:var(--text-main); margin-bottom:1.5rem;">
+          中華科技大學（China University of Science and Technology）前身為1968年創立之「中華工業專科學校」，建校半世紀以來，為台灣工商業發展培育無數棟樑。隨著技職教育體系演進，學校於1999年改制為技術學院，並於2009年奉准正式更名為「中華科技大學」。
+        </p>
+        <p style="font-size:1.05rem; line-height:1.8; color:var(--text-main);">
+          今日之中華科大，設有工程學院、健康科技暨管理學院及全國首屈一指之航空學院，擁有台北南港、新竹橫山、雲林古坑三大現代化校區，全方位落實「教學實用化、產學在地化、視野國際化」之辦學宗旨。
+        </p>
+      </div>
+    </section>
+
+    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(300px, 1fr)); gap:2rem;">
+      <div class="card">
+        <div class="card-body">
+          <h3 style="font-size:1.3rem; font-weight:700; color:var(--primary-800); margin-bottom:0.75rem;">校訓：誠、敬、敏、慧</h3>
+          <p style="font-size:0.95rem; color:var(--text-muted); line-height:1.7;">
+            <strong>誠</strong>：求真求實，立身處世之本。<br>
+            <strong>敬</strong>：敬業樂群，恪盡職守之美。<br>
+            <strong>敏</strong>：行事敏捷，與時俱進之能。<br>
+            <strong>慧</strong>：啟迪智慧，開創未來之光。
+          </p>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-body">
+          <h3 style="font-size:1.3rem; font-weight:700; color:var(--primary-800); margin-bottom:0.75rem;">國際產學特色</h3>
+          <p style="font-size:0.95rem; color:var(--text-muted); line-height:1.7;">
+            全台唯一獲得歐盟航空安全局（EASA）認證之航空維修訓練中心，與長榮航空、中華航空、漢翔航空及多家高科技半導體大廠建立長期就業保證實習合作。
+          </p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="footer-bottom">
+      <div class="container">
+        <div>&copy; 2026 中華科技大學 China University of Science and Technology. All Rights Reserved.</div>
+        <div class="nist-shield-badge">🛡️ NIST CSF 2.0 Certified Security Hub</div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="/js/app.js"></script>
+</body>
+</html>

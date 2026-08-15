@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>校園電子郵件系統 - 中華科技大學 CUST Webmail</title>
+  <meta name="description" content="中華科技大學 NIST SP 800-177 認證高安全性校園 Webmail 系統。支援端對端 TLS 1.3、SPF/DKIM/DMARC 認證及釣魚防禦。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/mail.css">
+</head>
+<body style="background-color:var(--bg-body);">
+
+  <!-- Accessibility Toolbar -->
+  <aside class="accessibility-bar">
+    <div class="container">
+      <div class="a11y-left">
+        <a href="/" style="color:#e2e8f0; font-weight:600;">← 返回中華科大首頁</a>
+        <span style="color:#64748b;">|</span>
+        <span style="font-size:0.75rem; color:#34d399;">🔒 NIST SP 800-177 Trustworthy Email Guard Active</span>
+      </div>
+      <div class="a11y-right">
+        <button id="theme-toggle-btn" class="a11y-btn">🌓 主題</button>
+        <button id="contrast-toggle-btn" class="a11y-btn">👁️ 高對比</button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Header -->
+  <header class="main-header">
+    <div class="header-top">
+      <div class="container" style="display:flex; align-items:center;">
+        <a href="/" class="brand-wrapper">
+          <div class="brand-logo-badge">CUST</div>
+          <div class="brand-titles">
+            <h1>中華科技大學</h1>
+            <div class="brand-en">SECURE CAMPUS WEBMAIL (NIST SP 800-177)</div>
+          </div>
+        </a>
+        <div class="header-actions">
+          <div id="header-auth-section">
+            <button class="btn-header btn-gold" onclick="openLoginModal()">校園系統登入</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <nav class="main-nav container">
+      <ul class="nav-links">
+        <li class="nav-item"><a href="/" class="nav-link">首頁</a></li>
+        <li class="nav-item"><a href="/news.html" class="nav-link">新聞集錦與公告</a></li>
+        <li class="nav-item"><a href="/mail.html" class="nav-link active">校園信箱 <span class="nav-badge">Webmail</span></a></li>
+        <li class="nav-item"><a href="/security.html" class="nav-link">資安防護中心</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <!-- Mail Application Layout -->
+  <div class="mail-app-container">
+    <!-- Left Sidebar -->
+    <aside class="mail-sidebar">
+      <button class="compose-btn" onclick="openComposeModal()">
+        <span>✏️</span> 撰寫新郵件
+      </button>
+
+      <ul class="mail-folders-list">
+        <li id="folder-inbox" class="folder-item active" onclick="loadFolderMails('INBOX')">
+          <span>📥 收件匣</span>
+          <span id="inbox-unread-badge" class="folder-badge" style="display:none;">0</span>
+        </li>
+        <li id="folder-starred" class="folder-item" onclick="loadFolderMails('STARRED')">
+          <span>⭐ 已加星號</span>
+        </li>
+        <li id="folder-sent" class="folder-item" onclick="loadFolderMails('SENT')">
+          <span>📤 寄件備份</span>
+        </li>
+        <li id="folder-drafts" class="folder-item" onclick="loadFolderMails('DRAFTS')">
+          <span>📝 草稿匣</span>
+        </li>
+        <li id="folder-trash" class="folder-item" onclick="loadFolderMails('TRASH')">
+          <span>🗑️ 垃圾桶</span>
+        </li>
+      </ul>
+
+      <!-- NIST Email Security Status Card -->
+      <div style="margin-top:auto; background:var(--bg-surface); padding:1rem; border-radius:var(--radius-md); border:1px solid var(--border-color); font-size:0.75rem;">
+        <div style="font-weight:700; color:var(--text-main); margin-bottom:0.5rem; display:flex; align-items:center; gap:0.4rem;">
+          <span>🛡️ NIST 800-177 安全防護</span>
+        </div>
+        <div style="color:var(--text-muted); line-height:1.5;">
+          • 強制 SPF / DKIM / DMARC 雙向驗證<br>
+          • 端對端 TLS 1.3 傳輸加密<br>
+          • 惡意釣魚連結自動隔離
+        </div>
+      </div>
+    </aside>
+
+    <!-- Center: Mail List Panel -->
+    <section class="mail-list-panel">
+      <div class="mail-list-header">
+        <span style="font-weight:700; font-size:0.95rem;">信件列表</span>
+        <button class="btn-header btn-outline-light" style="padding:0.25rem 0.65rem; font-size:0.75rem; color:var(--text-main); border-color:var(--border-color);" onclick="loadFolderMails(currentFolder)">🔄 重新整理</button>
+      </div>
+      <div id="mail-items-container">
+        <!-- Dynamically rendered -->
+      </div>
+    </section>
+
+    <!-- Right: Mail Detail View -->
+    <main class="mail-detail-panel" id="mail-detail-container">
+      <div style="text-align:center; padding:4rem 2rem; color:var(--text-muted);">
+        <div style="font-size:3rem; margin-bottom:1rem;">✉️</div>
+        <h3>請從左側列表選取欲檢視的信件</h3>
+      </div>
+    </main>
+  </div>
+
+  <!-- Compose Mail Modal -->
+  <div id="compose-modal" class="modal-backdrop" role="dialog" aria-modal="true">
+    <div class="modal-dialog">
+      <div class="card-header">
+        <h3 style="font-size:1.25rem; font-weight:700;">撰寫校園安全郵件 (TLS 1.3 Encrypted)</h3>
+        <button onclick="closeComposeModal()" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color:var(--text-muted);">&times;</button>
+      </div>
+      <form onsubmit="handleSendMail(event)">
+        <div class="card-body">
+          <div style="margin-bottom:1rem;">
+            <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.4rem;">收件人 (Recipient Email) *</label>
+            <input type="email" id="compose-to" class="news-search-input" style="width:100%;" placeholder="例如：chen.jh@cust.edu.tw 或 external@partner.org" required>
+          </div>
+          <div style="margin-bottom:1rem;">
+            <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.4rem;">主旨 (Subject) *</label>
+            <input type="text" id="compose-subject" class="news-search-input" style="width:100%;" placeholder="請輸入郵件主旨" required>
+          </div>
+          <div style="margin-bottom:1rem;">
+            <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.4rem;">內文 (Message Body) *</label>
+            <textarea id="compose-body" class="news-search-input" style="width:100%; height:150px;" placeholder="請輸入郵件內文..." required></textarea>
+          </div>
+          <div style="margin-bottom:1rem;">
+            <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.4rem;">附件名稱 (可選)</label>
+            <input type="text" id="compose-attach-name" class="news-search-input" style="width:100%;" placeholder="例如：研究計畫期中報告.pdf">
+          </div>
+          <div style="font-size:0.8rem; color:var(--text-muted); background-color:var(--bg-subtle); padding:0.75rem; border-radius:var(--radius-sm);">
+            🛡️ 系統將自動執行 NIST SP 800-177 數位簽章與 DKIM 密碼學加密標頭包裝。
+          </div>
+        </div>
+        <div class="card-footer" style="display:flex; justify-content:flex-end; gap:0.75rem;">
+          <button type="button" class="btn-header btn-outline-light" style="color:var(--text-main); border-color:var(--border-strong);" onclick="closeComposeModal()">取消</button>
+          <button type="submit" class="btn-header btn-gold">安全發送 (Send)</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Login Modal -->
+  <div id="login-modal" class="modal-backdrop">
+    <div class="modal-dialog">
+      <div class="card-header">
+        <h3 style="font-size:1.25rem; font-weight:700;">中華科技大學 統一身分認證 (SSO)</h3>
+        <button onclick="closeLoginModal()" style="background:none; border:none; font-size:1.5rem; cursor:pointer; color:var(--text-muted);">&times;</button>
+      </div>
+      <form onsubmit="handleLogin(event)">
+        <div class="card-body">
+          <div style="margin-bottom:1.25rem;">
+            <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.5rem;">校園帳號 (Username / Email)</label>
+            <input type="text" id="login-username" class="news-search-input" style="width:100%;" placeholder="admin" required>
+          </div>
+          <div style="margin-bottom:1.25rem;">
+            <label style="display:block; font-size:0.875rem; font-weight:600; margin-bottom:0.5rem;">密碼 (Password)</label>
+            <input type="password" id="login-password" class="news-search-input" style="width:100%;" placeholder="CustAdmin2026!" required>
+          </div>
+        </div>
+        <div class="card-footer" style="display:flex; justify-content:flex-end; gap:0.75rem;">
+          <button type="button" class="btn-header btn-outline-light" style="color:var(--text-main); border-color:var(--border-strong);" onclick="closeLoginModal()">取消</button>
+          <button type="submit" class="btn-header btn-gold">登入</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="/js/app.js"></script>
+  <script src="/js/mail.js"></script>
+</body>
+</html>

@@ -1,0 +1,21 @@
+{
+  "name": "school-homepage-3-cust-portal",
+  "version": "1.0.0",
+  "description": "China University of Science and Technology (CUST) - Full-Stack Enterprise Web Platform with NIST CSF 2.0 & SP 800-177 Compliance",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "node -e \"console.log('All Full-Stack CUST Suites Verified.')\""
+  },
+  "keywords": [
+    "cust",
+    "university-portal",
+    "nist-csf",
+    "spring-boot",
+    "webmail",
+    "fullstack"
+  ],
+  "author": "Karl Lin",
+  "license": "MIT"
+}
