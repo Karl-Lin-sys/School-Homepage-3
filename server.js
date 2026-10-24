@@ -1,15 +1,36 @@
 /**
  * CUST Full-Stack Web & REST API Server (Dual-Runtime Engine)
  * Pure Node.js Standard Library - Zero external dependencies required.
- * Implements Spring Boot API specs with NIST CSF 2.0 & SP 800-177 Compliance.
+ * Local demonstration only. Security labels in seeded data are simulated.
  */
 
 const http = require('http');
 const fs = require('fs');
 const path = require('path');
 const url = require('url');
+const crypto = require('crypto');
 
 const PORT = process.env.PORT || 8080;
+const HOST = process.env.HOST || '127.0.0.1';
+const sessions = new Map();
+const attempts = new Map();
+function checkPassword(user, supplied) {
+  const names = { admin: 'PORTAL_ADMIN_PASSWORD', professor_chen: 'PORTAL_FACULTY_PASSWORD', student_lin: 'PORTAL_STUDENT_PASSWORD' };
+  const expected = process.env[names[user.username]];
+  if (!expected || expected.length < 16 || typeof supplied !== 'string' || supplied.length > 256) return false;
+  return crypto.timingSafeEqual(crypto.createHash('sha256').update(expected).digest(), crypto.createHash('sha256').update(supplied).digest());
+}
+function sessionFor(req) {
+  const token = (req.headers.authorization || '').replace(/^Bearer /, '');
+  const session = sessions.get(token);
+  if (!session || session.expires <= Date.now()) { sessions.delete(token); return null; }
+  return session.user;
+}
+function ownsMail(mail, user) {
+  if (!mail) return false;
+  return ['SENT', 'DRAFTS'].includes(mail.folder) ? mail.senderEmail === user.email : mail.recipientEmail === user.email;
+}
+
 const STATIC_DIR = path.join(__dirname, 'src', 'main', 'resources', 'static');
 
 // In-memory Database Store (Mirrors JPA Entity State)
@@ -206,7 +227,7 @@ const server = http.createServer((req, res) => {
   res.setHeader('X-Frame-Options', 'DENY');
   res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
   res.setHeader('Content-Security-Policy', "default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:;");
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Cache-Control', 'no-store');
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
 
@@ -219,10 +240,22 @@ const server = http.createServer((req, res) => {
   // Parse Body Helper
   const parseJsonBody = (callback) => {
     let body = '';
-    req.on('data', chunk => { body += chunk.toString(); });
+    let bytes = 0;
+    let tooLarge = false;
+    req.on('data', chunk => {
+      bytes += chunk.length;
+      if (bytes > 65536) {
+        if (!tooLarge) { res.writeHead(413); res.end(JSON.stringify({error: 'Payload too large'})); }
+        tooLarge = true;
+        return;
+      }
+      if (!tooLarge) body += chunk.toString();
+    });
     req.on('end', () => {
+      if (tooLarge) return;
       try {
         const parsed = body ? JSON.parse(body) : {};
+        if (!parsed || typeof parsed !== 'object' || Array.isArray(parsed)) throw new Error('Invalid body');
         callback(parsed);
       } catch (err) {
         res.writeHead(400, { 'Content-Type': 'application/json' });
@@ -235,15 +268,45 @@ const server = http.createServer((req, res) => {
   if (pathname.startsWith('/api/')) {
     res.setHeader('Content-Type', 'application/json; charset=utf-8');
 
+    const publicRead = req.method === 'GET' && (pathname === '/api/categories' || /^\/api\/news(?:\/|$)/.test(pathname));
+    const login = pathname === '/api/auth/login' && req.method === 'POST';
+    const currentUser = sessionFor(req);
+    if (!publicRead && !login && !currentUser) {
+      res.writeHead(401); res.end(JSON.stringify({error: 'Authentication required'})); return;
+    }
+    if (pathname.startsWith('/api/security/') && !['ROLE_ADMIN', 'ROLE_SUPER_ADMIN'].includes(currentUser?.role)) {
+      res.writeHead(403); res.end(JSON.stringify({error: 'Forbidden'})); return;
+    }
+    if (pathname === '/api/news' && req.method !== 'GET' && !['ROLE_ADMIN', 'ROLE_SUPER_ADMIN', 'ROLE_FACULTY'].includes(currentUser?.role)) {
+      res.writeHead(403); res.end(JSON.stringify({error: 'Forbidden'})); return;
+    }
+    if (login) {
+      const now = Date.now();
+      for (const [key, value] of attempts) if (value.until <= now) attempts.delete(key);
+      if (!attempts.has(clientIp) && attempts.size >= 1000) { res.writeHead(429); res.end('{}'); return; }
+      const entry = attempts.get(clientIp) || {count: 0, until: now + 600000};
+      attempts.set(clientIp, entry);
+      if (++entry.count > 10) { res.writeHead(429); res.end(JSON.stringify({error: 'Try again later'})); return; }
+    }
+
+    if (pathname === '/api/auth/logout' && req.method === 'POST') {
+      sessions.delete((req.headers.authorization || '').replace(/^Bearer /, ''));
+      res.writeHead(204); res.end(); return;
+    }
+
     // 1. Authentication Endpoints
     if (pathname === '/api/auth/login' && req.method === 'POST') {
       parseJsonBody(body => {
         const user = db.users.find(u => u.username === body.username || u.email === body.username);
-        if (user && (body.password === 'CustAdmin2026!' || body.password === 'ChenProf2026!' || body.password === 'LinStudent2026!' || body.password.length >= 6)) {
+        if (user && checkPassword(user, body.password)) {
+          for (const [key, value] of sessions) if (value.expires <= Date.now()) sessions.delete(key);
+          if (sessions.size >= 1000) { res.writeHead(503); res.end('{}'); return; }
+          const token = crypto.randomBytes(32).toString('hex');
+          sessions.set(token, {user, expires: Date.now() + 3600000});
           addAuditLog('LOGIN_SUCCESS', 'PROTECT', user.username, clientIp, 'User logged in successfully', 'INFO');
           res.writeHead(200);
           res.end(JSON.stringify({
-            token: 'cust-jwt-simulated-' + Buffer.from(user.username).toString('base64'),
+            token,
             username: user.username,
             fullName: user.fullName,
             email: user.email,
@@ -275,7 +338,7 @@ const server = http.createServer((req, res) => {
         filtered = filtered.filter(n => n.categoryId === categoryId);
       }
       if (search) {
-        const q = search.toLowerCase();
+        const q = String(search).toLowerCase();
         filtered = filtered.filter(n => 
           n.title.toLowerCase().includes(q) || 
           n.content.toLowerCase().includes(q) || 
@@ -321,6 +384,7 @@ const server = http.createServer((req, res) => {
 
     if (pathname === '/api/news' && req.method === 'POST') {
       parseJsonBody(body => {
+        if (typeof body.title !== 'string' || typeof body.content !== 'string' || body.title.length > 200 || body.content.length > 20000) { res.writeHead(400); res.end('{}'); return; }
         const newNews = {
           id: db.news.length + 1,
           title: body.title,
@@ -347,7 +411,7 @@ const server = http.createServer((req, res) => {
     // 3. Webmail Endpoints (NIST SP 800-177)
     if (pathname.startsWith('/api/mail/folder/') && req.method === 'GET') {
       const folder = pathname.split('/')[4].toUpperCase();
-      let mails = db.mails;
+      let mails = db.mails.filter(mail => ownsMail(mail, currentUser));
       if (folder === 'STARRED') {
         mails = mails.filter(m => m.isStarred);
       } else {
@@ -359,7 +423,7 @@ const server = http.createServer((req, res) => {
     }
 
     if (pathname === '/api/mail/unread-count' && req.method === 'GET') {
-      const unread = db.mails.filter(m => m.folder === 'INBOX' && !m.read).length;
+      const unread = db.mails.filter(m => m.recipientEmail === currentUser.email && m.folder === 'INBOX' && !m.read).length;
       res.writeHead(200);
       res.end(JSON.stringify({ unreadCount: unread }));
       return;
@@ -368,7 +432,7 @@ const server = http.createServer((req, res) => {
     if (pathname.startsWith('/api/mail/message/') && req.method === 'GET') {
       const id = parseInt(pathname.split('/')[4]);
       const mail = db.mails.find(m => m.id === id);
-      if (mail) {
+      if (ownsMail(mail, currentUser)) {
         mail.read = true;
         res.writeHead(200);
         res.end(JSON.stringify(mail));
@@ -381,10 +445,11 @@ const server = http.createServer((req, res) => {
 
     if (pathname === '/api/mail/send' && req.method === 'POST') {
       parseJsonBody(body => {
+        if (typeof body.recipientEmail !== 'string' || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(body.recipientEmail) || typeof body.subject !== 'string' || typeof body.body !== 'string' || body.subject.length > 200 || body.body.length > 20000) { res.writeHead(400); res.end('{}'); return; }
         const sentMail = {
           id: db.mails.length + 1,
-          senderEmail: 'admin@cust.edu.tw',
-          senderName: 'CUST 系統管理員',
+          senderEmail: currentUser.email,
+          senderName: currentUser.fullName,
           recipientEmail: body.recipientEmail,
           recipientName: body.recipientName || body.recipientEmail.split('@')[0],
           subject: body.subject,
@@ -462,7 +527,10 @@ const server = http.createServer((req, res) => {
   }
 
   // Static File Serving
-  let filePath = path.join(STATIC_DIR, pathname === '/' ? 'index.html' : pathname);
+  let decoded;
+  try { decoded = decodeURIComponent(pathname); } catch { res.writeHead(400); res.end(); return; }
+  let filePath = path.resolve(STATIC_DIR, '.' + (decoded === '/' ? '/index.html' : decoded));
+  if (!filePath.startsWith(STATIC_DIR + path.sep) || decoded.includes('\0')) { res.writeHead(403); res.end(); return; }
   if (!path.extname(filePath)) {
     filePath += '.html';
   }
@@ -494,7 +562,7 @@ const server = http.createServer((req, res) => {
   });
 });
 
-server.listen(PORT, () => {
+server.listen(PORT, HOST, () => {
   console.log(`================================================================`);
   console.log(` CUST Portal & Secure Enterprise Platform (NIST CSF 2.0)`);
   console.log(` Server is running at: http://localhost:${PORT}`);

@@ -16,11 +16,18 @@ import java.util.List;
 @SpringBootApplication
 public class CustPortalApplication {
 
+    private static String seedPassword(String name) {
+        String value = System.getenv(name);
+        if (value == null || value.length() < 16) throw new IllegalStateException(name + " must contain at least 16 characters");
+        return value;
+    }
+
     public static void main(String[] args) {
         SpringApplication.run(CustPortalApplication.class, args);
     }
 
     @Bean
+    @org.springframework.boot.autoconfigure.condition.ConditionalOnProperty(name = "app.demo.seed", havingValue = "true")
     public CommandLineRunner initDatabase(
             UserRepository userRepository,
             NewsCategoryRepository categoryRepository,
@@ -36,7 +43,7 @@ public class CustPortalApplication {
                         .username("admin")
                         .fullName("CUST 系統管理員")
                         .email("admin@cust.edu.tw")
-                        .password(passwordEncoder.encode("CustAdmin2026!"))
+                        .password(passwordEncoder.encode(seedPassword("PORTAL_ADMIN_PASSWORD")))
                         .role(Role.ROLE_SUPER_ADMIN)
                         .department("圖書資訊中心")
                         .enabled(true)
@@ -49,7 +56,7 @@ public class CustPortalApplication {
                         .username("professor_chen")
                         .fullName("陳建宏 教授")
                         .email("chen.jh@cust.edu.tw")
-                        .password(passwordEncoder.encode("ChenProf2026!"))
+                        .password(passwordEncoder.encode(seedPassword("PORTAL_FACULTY_PASSWORD")))
                         .role(Role.ROLE_FACULTY)
                         .department("航空機械系")
                         .enabled(true)
@@ -62,7 +69,7 @@ public class CustPortalApplication {
                         .username("student_lin")
                         .fullName("林冠宇 同學")
                         .email("lin.ky@cust.edu.tw")
-                        .password(passwordEncoder.encode("LinStudent2026!"))
+                        .password(passwordEncoder.encode(seedPassword("PORTAL_STUDENT_PASSWORD")))
                         .role(Role.ROLE_STUDENT)
                         .department("資訊工程系")
                         .enabled(true)
@@ -168,6 +175,7 @@ public class CustPortalApplication {
                         .recipientName("系統管理員")
                         .subject("【教務通知】115學年度第一學期期中教學評量系統開放通知")
                         .body("各位同仁與同學好：\n\n115學年度第一學期教學意見調查系統已全面上線。請各院系所提醒同學登入系統完成填答，以作為未來課程精進之參考指標。\n\n系統已啟用 TLS 1.3 及 NIST SP 800-63B 強化認證機制，保障個資安全。\n\n教務處 敬啟")
+                        .ownerEmail("admin@cust.edu.tw")
                         .folder("INBOX")
                         .isRead(false)
                         .isStarred(true)
@@ -190,6 +198,7 @@ public class CustPortalApplication {
                         .recipientName("系統管理員")
                         .subject("【資安防護週報】NIST CSF 2.0 合規性檢查報告及威脅防禦狀態")
                         .body("資通安全監控中心（SOC）報告：\n\n本週校園骨幹網路防火牆累計攔截 1,420 次異常掃描試探。本校新一代入口網站系統運作正常，所有API端點均符合 NIST CSF 2.0 (Govern, Identify, Protect, Detect, Respond, Recover) 規範，無勒索軟體或未授權訪問異常。\n\n詳細合規矩陣如附件。")
+                        .ownerEmail("admin@cust.edu.tw")
                         .folder("INBOX")
                         .isRead(true)
                         .isStarred(true)

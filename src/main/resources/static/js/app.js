@@ -1,3 +1,8 @@
+function escapeHTML(value) {
+  return String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+function safeId(value) { return Number.isSafeInteger(Number(value)) && Number(value) > 0 ? Number(value) : 0; }
+function safeColor(value) { return /^#[0-9a-f]{6}$/i.test(value || '') ? value : '#475569'; }
 /**
  * CUST Enterprise Web Platform - Common Application Logic
  * Implements WCAG 2.1 AA Accessibility & NIST CSF User Authentication Context
@@ -89,7 +94,7 @@ function initAuthUI() {
   if (AppState.currentUser && AppState.token) {
     authContainer.innerHTML = `
       <div style="display:flex; align-items:center; gap:0.75rem;">
-        <span style="font-size:0.875rem; color:#cbd5e1;">👤 ${AppState.currentUser.fullName || AppState.currentUser.username} (${AppState.currentUser.role.replace('ROLE_', '')})</span>
+        <span style="font-size:0.875rem; color:#cbd5e1;">👤 ${escapeHTML(AppState.currentUser.fullName || AppState.currentUser.username)} (${escapeHTML(AppState.currentUser.role.replace('ROLE_', ''))})</span>
         <button class="btn-header btn-outline-light" onclick="handleLogout()" style="padding:0.35rem 0.75rem; font-size:0.8125rem;">登出</button>
       </div>
     `;
@@ -152,7 +157,8 @@ async function handleLogin(event) {
   }
 }
 
-function handleLogout() {
+async function handleLogout() {
+  try { await apiRequest('/api/auth/logout', {method: 'POST'}); } catch {}
   localStorage.removeItem('cust_token');
   localStorage.removeItem('cust_user');
   AppState.token = null;
@@ -191,7 +197,7 @@ function showToast(message, type = 'info') {
 
   toast.innerHTML = `
     <span style="font-size:1.25rem;">${icon}</span>
-    <div style="font-size:0.875rem; font-weight:500;">${message}</div>
+    <div style="font-size:0.875rem; font-weight:500;">${escapeHTML(message)}</div>
   `;
 
   container.appendChild(toast);

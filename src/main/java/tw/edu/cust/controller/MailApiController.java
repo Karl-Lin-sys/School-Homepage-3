@@ -25,11 +25,11 @@ public class MailApiController {
 
     private String resolveUserEmail(Authentication auth) {
         if (auth == null || auth.getName() == null) {
-            return "admin@cust.edu.tw"; // default for simulation/demo
+            throw new org.springframework.security.access.AccessDeniedException("Authentication required");
         }
         return userService.findByUsername(auth.getName())
                 .map(User::getEmail)
-                .orElse(auth.getName().contains("@") ? auth.getName() : auth.getName() + "@cust.edu.tw");
+                .orElseThrow(() -> new org.springframework.security.access.AccessDeniedException("Unknown user"));
     }
 
     @GetMapping("/folder/{folder}")
@@ -100,14 +100,14 @@ public class MailApiController {
     }
 
     @PostMapping("/message/{id}/star")
-    public ResponseEntity<?> toggleStarred(@PathVariable Long id) {
-        mailService.toggleStarred(id);
+    public ResponseEntity<?> toggleStarred(@PathVariable Long id, Authentication auth) {
+        mailService.toggleStarred(id, resolveUserEmail(auth));
         return ResponseEntity.ok(Map.of("status", "success"));
     }
 
     @DeleteMapping("/message/{id}")
-    public ResponseEntity<?> moveToTrash(@PathVariable Long id) {
-        mailService.moveToTrash(id);
+    public ResponseEntity<?> moveToTrash(@PathVariable Long id, Authentication auth) {
+        mailService.moveToTrash(id, resolveUserEmail(auth));
         return ResponseEntity.ok(Map.of("status", "success"));
     }
 

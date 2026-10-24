@@ -35,14 +35,14 @@ async function loadCategories() {
       const categories = await res.json();
       let html = `<button class="cat-tab active" onclick="selectCategory(0, this)">全部公告 (All)</button>`;
       categories.forEach(cat => {
-        html += `<button class="cat-tab" onclick="selectCategory(${cat.id}, this)">${cat.nameZh}</button>`;
+        html += `<button class="cat-tab" onclick="selectCategory(${safeId(cat.id)}, this)">${escapeHTML(cat.nameZh)}</button>`;
       });
       container.innerHTML = html;
 
       // Also fill category select in modal if present
       const modalSelect = document.getElementById('create-news-category');
       if (modalSelect) {
-        modalSelect.innerHTML = categories.map(c => `<option value="${c.id}">${c.nameZh} (${c.nameEn})</option>`).join('');
+        modalSelect.innerHTML = categories.map(c => `<option value="${safeId(c.id)}">${escapeHTML(c.nameZh)} (${escapeHTML(c.nameEn)})</option>`).join('');
       }
     }
   } catch (err) {
@@ -90,21 +90,21 @@ function renderNewsList(newsItems) {
   }
 
   container.innerHTML = newsItems.map(item => `
-    <article class="news-card ${item.pinned ? 'pinned' : ''}" onclick="viewNewsDetail(${item.id})">
+    <article class="news-card ${item.pinned ? 'pinned' : ''}" onclick="viewNewsDetail(${safeId(item.id)})">
       <div class="news-meta-row">
         ${item.pinned ? '<span class="pinned-badge">📌 置頂公告</span>' : ''}
-        <span class="badge" style="background-color: ${item.category ? item.category.badgeColor + '20' : '#e2e8f0'}; color: ${item.category ? item.category.badgeColor : '#475569'};">
-          ${item.category ? item.category.nameZh : '一般公告'}
+        <span class="badge" style="background-color: ${item.category ? safeColor(item.category.badgeColor) + '20' : '#e2e8f0'}; color: ${item.category ? safeColor(item.category.badgeColor) : '#475569'};">
+          ${escapeHTML(item.category ? item.category.nameZh : '一般公告')}
         </span>
-        <span>發布單位：${item.authorDepartment || '中華科技大學'}</span>
+        <span>發布單位：${escapeHTML(item.authorDepartment || '中華科技大學')}</span>
         <span>•</span>
         <span>${formatDate(item.publishedAt)}</span>
       </div>
-      <h2 class="news-title">${item.title}</h2>
-      <p class="news-summary">${item.summary || item.content.substring(0, 140) + '...'}</p>
+      <h2 class="news-title">${escapeHTML(item.title)}</h2>
+      <p class="news-summary">${escapeHTML(item.summary || item.content.substring(0, 140) + '...')}</p>
       <div class="news-footer-row">
-        <span>👁️ 瀏覽人次: ${item.viewCount || 0}</span>
-        ${item.attachmentName ? `<span style="color:var(--primary-500); font-weight:600;">📎 附件: ${item.attachmentName}</span>` : '<span></span>'}
+        <span>👁️ 瀏覽人次: ${escapeHTML(item.viewCount || 0)}</span>
+        ${item.attachmentName ? `<span style="color:var(--primary-500); font-weight:600;">📎 附件: ${escapeHTML(item.attachmentName)}</span>` : '<span></span>'}
       </div>
     </article>
   `).join('');

@@ -36,13 +36,13 @@ async function loadAuditLogs() {
         <tr>
           <td class="log-time">${new Date(log.timestamp).toLocaleString()}</td>
           <td>
-            <span class="badge ${getNistBadgeClass(log.nistCategory)}">${log.nistCategory || 'GOVERN'}</span>
+            <span class="badge ${getNistBadgeClass(log.nistCategory)}">${escapeHTML(log.nistCategory || 'GOVERN')}</span>
           </td>
-          <td><strong>${log.eventType}</strong></td>
-          <td>${log.username || 'ANONYMOUS'}</td>
-          <td><code>${log.ipAddress || '127.0.0.1'}</code></td>
-          <td><span class="badge ${getSeverityBadge(log.severity)}">${log.severity}</span></td>
-          <td style="font-size:0.8125rem; color:var(--text-muted);">${log.details || ''}</td>
+          <td><strong>${escapeHTML(log.eventType)}</strong></td>
+          <td>${escapeHTML(log.username || 'ANONYMOUS')}</td>
+          <td><code>${escapeHTML(log.ipAddress || '127.0.0.1')}</code></td>
+          <td><span class="badge ${getSeverityBadge(log.severity)}">${escapeHTML(log.severity)}</span></td>
+          <td style="font-size:0.8125rem; color:var(--text-muted);">${escapeHTML(log.details || '')}</td>
         </tr>
       `).join('');
     }
@@ -64,21 +64,21 @@ async function loadIncidents() {
         return;
       }
       container.innerHTML = incidents.map(inc => `
-        <div class="card" style="margin-bottom:1rem; border-left:4px solid ${inc.severity === 'CRITICAL' ? 'var(--danger)' : 'var(--warning)'};">
+        <div class="card" style="margin-bottom:1rem; border-left:4px solid ${escapeHTML(inc.severity === 'CRITICAL' ? 'var(--danger)' : 'var(--warning)')};">
           <div class="card-body" style="padding:1.25rem;">
             <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:0.5rem;">
               <div>
-                <span class="badge badge-red">${inc.incidentType}</span>
-                <strong style="font-size:1.1rem; margin-left:0.5rem;">${inc.title}</strong>
+                <span class="badge badge-red">${escapeHTML(inc.incidentType)}</span>
+                <strong style="font-size:1.1rem; margin-left:0.5rem;">${escapeHTML(inc.title)}</strong>
               </div>
-              <span class="badge ${inc.status === 'CLOSED' ? 'badge-green' : 'badge-amber'}">${inc.status}</span>
+              <span class="badge ${inc.status === 'CLOSED' ? 'badge-green' : 'badge-amber'}">${escapeHTML(inc.status)}</span>
             </div>
-            <p style="font-size:0.875rem; color:var(--text-muted); margin-bottom:0.75rem;">${inc.description}</p>
+            <p style="font-size:0.875rem; color:var(--text-muted); margin-bottom:0.75rem;">${escapeHTML(inc.description)}</p>
             <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.8125rem; color:var(--text-muted);">
-              <span>來源 IP: <code>${inc.sourceIp || 'N/A'}</code> | 偵測時間: ${new Date(inc.detectedAt).toLocaleString()}</span>
+              <span>來源 IP: <code>${escapeHTML(inc.sourceIp || 'N/A')}</code> | 偵測時間: ${new Date(inc.detectedAt).toLocaleString()}</span>
               ${inc.status === 'OPEN' ? `
-                <button class="btn-header btn-gold" style="padding:0.25rem 0.75rem; font-size:0.75rem;" onclick="resolveIncident(${inc.id})">執行緩解並結案</button>
-              ` : `<span style="color:var(--success);">緩解措施：${inc.mitigationAction || '已排除'}</span>`}
+                <button class="btn-header btn-gold" style="padding:0.25rem 0.75rem; font-size:0.75rem;" onclick="resolveIncident(${safeId(inc.id)})">執行緩解並結案</button>
+              ` : `<span style="color:var(--success);">緩解措施：${escapeHTML(inc.mitigationAction || '已排除')}</span>`}
             </div>
           </div>
         </div>

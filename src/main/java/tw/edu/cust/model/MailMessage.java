@@ -21,6 +21,9 @@ public class MailMessage {
     private String senderEmail;
 
     @Column(length = 100)
+    private String ownerEmail;
+
+    @Column(length = 100)
     private String senderName;
 
     @Column(nullable = false, length = 100)

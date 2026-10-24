@@ -11,6 +11,8 @@ import java.util.List;
 
 @Repository
 public interface MailRepository extends JpaRepository<MailMessage, Long> {
+    Page<MailMessage> findByOwnerEmailAndFolderOrderByReceivedAtDesc(String ownerEmail, String folder, Pageable pageable);
+    Page<MailMessage> findByOwnerEmailAndIsStarredTrueOrderByReceivedAtDesc(String ownerEmail, Pageable pageable);
     Page<MailMessage> findByRecipientEmailAndFolderOrderByReceivedAtDesc(String recipientEmail, String folder, Pageable pageable);
     
     Page<MailMessage> findBySenderEmailAndFolderOrderByReceivedAtDesc(String senderEmail, String folder, Pageable pageable);
@@ -20,7 +22,7 @@ public interface MailRepository extends JpaRepository<MailMessage, Long> {
     long countByRecipientEmailAndFolderAndIsReadFalse(String recipientEmail, String folder);
 
     @Query("SELECT m FROM MailMessage m WHERE " +
-           "(m.recipientEmail = :email OR m.senderEmail = :email) AND " +
+           "(m.ownerEmail = :email) AND " +
            "(LOWER(m.subject) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
            "LOWER(m.body) LIKE LOWER(CONCAT('%', :query, '%')) OR " +
            "LOWER(m.senderName) LIKE LOWER(CONCAT('%', :query, '%'))) " +

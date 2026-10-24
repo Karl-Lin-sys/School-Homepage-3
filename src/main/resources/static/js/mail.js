@@ -63,13 +63,13 @@ function renderMailList(mails) {
   }
 
   container.innerHTML = mails.map(m => `
-    <div class="mail-item ${!m.read ? 'unread' : ''} ${currentMailId === m.id ? 'selected' : ''}" onclick="selectMail(${m.id})">
+    <div class="mail-item ${!m.read ? 'unread' : ''} ${currentMailId === m.id ? 'selected' : ''}" onclick="selectMail(${safeId(m.id)})">
       <div class="mail-item-header">
-        <span class="mail-sender">${m.senderName || m.senderEmail}</span>
+        <span class="mail-sender">${escapeHTML(m.senderName || m.senderEmail)}</span>
         <span class="mail-time">${formatMailTime(m.receivedAt)}</span>
       </div>
-      <div class="mail-subject">${m.subject}</div>
-      <div class="mail-snippet">${m.body.substring(0, 50)}...</div>
+      <div class="mail-subject">${escapeHTML(m.subject)}</div>
+      <div class="mail-snippet">${escapeHTML(m.body.substring(0, 50))}...</div>
       <div style="display:flex; justify-content:space-between; align-items:center; margin-top:0.25rem;">
         <span class="nist-pill nist-pass" style="font-size:0.7rem;">🛡️ NIST Verified</span>
         ${m.hasAttachment ? '<span style="font-size:0.75rem;">📎</span>' : ''}
@@ -108,11 +108,11 @@ function renderMailDetail(mail) {
 
   container.innerHTML = `
     <div class="mail-detail-header">
-      <h2 class="mail-detail-title">${mail.subject}</h2>
+      <h2 class="mail-detail-title">${escapeHTML(mail.subject)}</h2>
       <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:1rem;">
         <div>
-          <div style="font-weight:700; color:var(--text-main); font-size:1.05rem;">${mail.senderName} <span style="font-weight:400; color:var(--text-muted); font-size:0.875rem;">&lt;${mail.senderEmail}&gt;</span></div>
-          <div style="font-size:0.875rem; color:var(--text-muted);">收件人：${mail.recipientName} &lt;${mail.recipientEmail}&gt;</div>
+          <div style="font-weight:700; color:var(--text-main); font-size:1.05rem;">${escapeHTML(mail.senderName)} <span style="font-weight:400; color:var(--text-muted); font-size:0.875rem;">&lt;${escapeHTML(mail.senderEmail)}&gt;</span></div>
+          <div style="font-size:0.875rem; color:var(--text-muted);">收件人：${escapeHTML(mail.recipientName)} &lt;${escapeHTML(mail.recipientEmail)}&gt;</div>
         </div>
         <div style="font-size:0.875rem; color:var(--text-muted);">${new Date(mail.receivedAt).toLocaleString()}</div>
       </div>
@@ -121,26 +121,26 @@ function renderMailDetail(mail) {
     <!-- NIST SP 800-177 Email Security Bar -->
     <div class="email-security-shield">
       <div class="security-tag-group">
-        <span class="nist-pill nist-pass">SPF: ${mail.spfStatus || 'PASS'}</span>
-        <span class="nist-pill nist-pass">DKIM: ${mail.dkimStatus || 'PASS'}</span>
-        <span class="nist-pill nist-pass">DMARC: ${mail.dmarcStatus || 'PASS'}</span>
-        <span class="nist-pill nist-tls">🔒 ${mail.tlsEncryption || 'TLS 1.3'}</span>
-        <span class="nist-pill nist-clean">🛡️ ${mail.threatLevel || 'CLEAN'}</span>
+        <span class="nist-pill nist-pass">SPF: ${escapeHTML(mail.spfStatus || 'PASS')}</span>
+        <span class="nist-pill nist-pass">DKIM: ${escapeHTML(mail.dkimStatus || 'PASS')}</span>
+        <span class="nist-pill nist-pass">DMARC: ${escapeHTML(mail.dmarcStatus || 'PASS')}</span>
+        <span class="nist-pill nist-tls">🔒 ${escapeHTML(mail.tlsEncryption || 'TLS 1.3')}</span>
+        <span class="nist-pill nist-clean">🛡️ ${escapeHTML(mail.threatLevel || 'CLEAN')}</span>
       </div>
       <div style="font-size:0.8rem; color:var(--text-muted);">
-        ${mail.securityNotice || 'NIST SP 800-177 認證郵件'}
+        ${escapeHTML(mail.securityNotice || 'NIST SP 800-177 認證郵件')}
       </div>
     </div>
 
-    <div class="mail-detail-body">${mail.body}</div>
+    <div class="mail-detail-body">${escapeHTML(mail.body)}</div>
 
     ${mail.hasAttachment ? `
       <div class="attachment-box">
         <div style="display:flex; align-items:center; gap:0.75rem;">
           <span style="font-size:1.5rem;">📄</span>
           <div>
-            <div style="font-weight:600; font-size:0.9rem;">${mail.attachmentName || '附件檔案'}</div>
-            <div style="font-size:0.75rem; color:var(--text-muted);">${mail.attachmentSize || '1.2 MB'} • 安全掃描無毒</div>
+            <div style="font-weight:600; font-size:0.9rem;">${escapeHTML(mail.attachmentName || '附件檔案')}</div>
+            <div style="font-size:0.75rem; color:var(--text-muted);">${escapeHTML(mail.attachmentSize || '1.2 MB')} • 安全掃描無毒</div>
           </div>
         </div>
         <button class="btn-header btn-outline-light" style="color:var(--text-main); border-color:var(--border-strong);" onclick="showToast('已開始安全下載附件', 'success')">下載附件</button>

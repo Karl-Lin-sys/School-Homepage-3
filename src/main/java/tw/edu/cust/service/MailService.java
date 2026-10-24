@@ -30,7 +30,7 @@ public class MailService {
     }
 
     public Page<MailMessage> getStarred(String userEmail, int page, int size) {
-        return mailRepository.findByRecipientEmailAndIsStarredTrueOrderByReceivedAtDesc(userEmail, PageRequest.of(page, size));
+        return mailRepository.findByOwnerEmailAndIsStarredTrueOrderByReceivedAtDesc(userEmail, PageRequest.of(page, size));
     }
 
     public Page<MailMessage> getDrafts(String userEmail, int page, int size) {
@@ -38,7 +38,7 @@ public class MailService {
     }
 
     public Page<MailMessage> getTrash(String userEmail, int page, int size) {
-        return mailRepository.findByRecipientEmailAndFolderOrderByReceivedAtDesc(userEmail, "TRASH", PageRequest.of(page, size));
+        return mailRepository.findByOwnerEmailAndFolderOrderByReceivedAtDesc(userEmail, "TRASH", PageRequest.of(page, size));
     }
 
     public long getUnreadCount(String userEmail) {
@@ -51,7 +51,7 @@ public class MailService {
 
     @Transactional
     public Optional<MailMessage> getMailDetailsAndMarkRead(Long id, String userEmail) {
-        return mailRepository.findById(id).map(mail -> {
+        return mailRepository.findById(id).filter(mail -> ownsMail(mail, userEmail)).map(mail -> {
             if (mail.getRecipientEmail().equalsIgnoreCase(userEmail) && !mail.isRead()) {
                 mail.setRead(true);
                 mailRepository.save(mail);
@@ -81,6 +81,7 @@ public class MailService {
                 .recipientName(recipientName != null ? recipientName : recipientEmail)
                 .subject(subject)
                 .body(body)
+                .ownerEmail(senderEmail)
                 .folder("SENT")
                 .isRead(true)
                 .hasAttachment(hasAttachment)
@@ -98,7 +99,7 @@ public class MailService {
         mailRepository.save(sentMessage);
 
         // Also create delivery message for the recipient inbox if internal
-        if (recipientEmail.endsWith("@cust.edu.tw") || recipientEmail.contains("cust.edu.tw")) {
+        if (recipientEmail.endsWith("@cust.edu.tw")) {
             MailMessage receivedMessage = MailMessage.builder()
                     .senderEmail(senderEmail)
                     .senderName(senderName != null ? senderName : senderEmail)
@@ -106,6 +107,7 @@ public class MailService {
                     .recipientName(recipientName != null ? recipientName : recipientEmail)
                     .subject(subject)
                     .body(body)
+                    .ownerEmail(recipientEmail)
                     .folder("INBOX")
                     .isRead(false)
                     .hasAttachment(hasAttachment)
@@ -127,17 +129,26 @@ public class MailService {
         return sentMessage;
     }
 
+    private boolean ownsMail(MailMessage mail, String email) {
+        if (email == null) return false;
+        if (mail.getOwnerEmail() != null) return email.equalsIgnoreCase(mail.getOwnerEmail());
+        if (!java.util.List.of("INBOX", "SENT", "DRAFTS").contains(mail.getFolder())) return false;
+        return ("SENT".equals(mail.getFolder()) || "DRAFTS".equals(mail.getFolder()))
+                ? email.equalsIgnoreCase(mail.getSenderEmail()) : email.equalsIgnoreCase(mail.getRecipientEmail());
+    }
+
     @Transactional
-    public void toggleStarred(Long id) {
-        mailRepository.findById(id).ifPresent(mail -> {
+    public void toggleStarred(Long id, String userEmail) {
+        mailRepository.findById(id).filter(mail -> ownsMail(mail, userEmail)).ifPresent(mail -> {
             mail.setStarred(!mail.isStarred());
             mailRepository.save(mail);
         });
     }
 
     @Transactional
-    public void moveToTrash(Long id) {
-        mailRepository.findById(id).ifPresent(mail -> {
+    public void moveToTrash(Long id, String userEmail) {
+        mailRepository.findById(id).filter(mail -> ownsMail(mail, userEmail)).ifPresent(mail -> {
+            mail.setOwnerEmail(userEmail);
             mail.setFolder("TRASH");
             mailRepository.save(mail);
         });

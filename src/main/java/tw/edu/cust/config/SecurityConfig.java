@@ -68,7 +68,7 @@ public class SecurityConfig {
                 // Static assets & Public pages
                 .requestMatchers("/", "/index.html", "/news.html", "/mail.html", "/security.html", "/about.html", "/academics.html", "/campus.html").permitAll()
                 .requestMatchers("/css/**", "/js/**", "/images/**", "/assets/**", "/favicon.ico").permitAll()
-                .requestMatchers("/h2-console/**").permitAll()
+                .requestMatchers("/h2-console/**").denyAll()
                 
                 // Public News APIs
                 .requestMatchers(HttpMethod.GET, "/api/news/**", "/api/categories/**", "/api/campus/**").permitAll()
@@ -83,7 +83,7 @@ public class SecurityConfig {
                 .requestMatchers("/api/admin/**", "/api/security/**").hasAnyRole("ADMIN", "SUPER_ADMIN")
                 
                 // All other requests require authentication
-                .anyRequest().permitAll()
+                .anyRequest().authenticated()
             );
 
         http.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
